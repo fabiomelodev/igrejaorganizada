@@ -1,7 +1,7 @@
 <?php
 
-use App\Models\Church;
 use App\Models\Lesson;
+use App\Models\Team;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('frequencies', function (Blueprint $table) {
             $table->id();
             $table->date('date');
-            $table->foreignIdFor(Church::class);
+            $table->foreignIdFor(Team::class);
             $table->foreignIdFor(Lesson::class);
             $table->timestamps();
         });

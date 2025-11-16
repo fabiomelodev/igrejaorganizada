@@ -14,11 +14,11 @@ class Lesson extends ModelBase
         parent::boot();
 
         static::creating(function ($model) {
-            $model->church_id = Filament::getTenant()->id;
+            $model->team_id = Filament::getTenant()->id;
         });
 
         static::updating(function ($model) {
-            $model->church_id = Filament::getTenant()->id;
+            $model->team_id = Filament::getTenant()->id;
         });
     }
 

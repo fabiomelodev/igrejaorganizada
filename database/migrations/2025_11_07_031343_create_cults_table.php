@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Church;
+use App\Models\Team;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('start_time');
             $table->string('end_time');
             $table->boolean('status')->default(1);
-            $table->foreignIdFor(Church::class);
+            $table->foreignIdFor(Team::class);
             $table->timestamps();
         });
     }

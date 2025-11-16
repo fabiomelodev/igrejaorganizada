@@ -2,7 +2,6 @@
 
 namespace App\Livewire;
 
-use App\Models\Church;
 use Filament\Actions\BulkActionGroup;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget;
@@ -18,8 +17,7 @@ use Filament\Support\Enums\IconPosition;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
-use Symfony\Component\ErrorHandler\Debug;
+
 
 class PositionTableWidget extends TableWidget
 {
@@ -27,11 +25,7 @@ class PositionTableWidget extends TableWidget
 
     public static function getQuery(): Builder
     {
-        // if (Auth::user()->isSuperAdmin()) {
-        //     return Position::query()->whereHas('churches');
-        // }
-
-        return Position::query()->where('church_id', Filament::getTenant()->id);
+        return Position::query()->where('team_id', Filament::getTenant()->id);
     }
 
     public function table(Table $table): Table

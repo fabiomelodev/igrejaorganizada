@@ -1,7 +1,7 @@
 <?php
 
-use App\Models\Church;
 use App\Models\Position;
+use App\Models\Team;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('address')->nullable();
             $table->enum('gender', ['masculine', 'feminine'])->default('masculine');
             $table->boolean('status')->default(1);
-            $table->foreignIdFor(Church::class);
+            $table->foreignIdFor(Team::class);
             $table->foreignIdFor(Position::class)->nullable();
             $table->timestamps();
         });

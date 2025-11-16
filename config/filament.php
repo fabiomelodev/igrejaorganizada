@@ -3,7 +3,7 @@
 return [
     'tenancy' => [
         'enabled' => true,
-        'tenant_model' => App\Models\Church::class,
+        'tenant_model' => App\Models\Team::class,
     ],
 
     /*

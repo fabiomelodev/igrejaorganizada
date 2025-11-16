@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Filament\Resources\Churches\Schemas;
+namespace App\Filament\Resources\Teams\Schemas;
 
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
 
-class ChurchInfolist
+class TeamInfolist
 {
     public static function configure(Schema $schema): Schema
     {
@@ -13,8 +13,6 @@ class ChurchInfolist
             ->components([
                 TextEntry::make('name'),
                 TextEntry::make('slug'),
-                TextEntry::make('user.name')
-                    ->label('User'),
                 TextEntry::make('created_at')
                     ->dateTime()
                     ->placeholder('-'),

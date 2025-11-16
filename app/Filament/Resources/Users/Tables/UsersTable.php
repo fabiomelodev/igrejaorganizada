@@ -25,8 +25,8 @@ class UsersTable
                 TextColumn::make('email')
                     ->label('E-mail')
                     ->searchable(),
-                TextColumn::make('roles.name')
-                    ->label('Função'),
+                // TextColumn::make('roles.name')
+                //     ->label('Função'),
                 TextColumn::make('status')
                     ->tooltip(fn($record): string => match ($record->status) {
                         1 => 'Ativo',

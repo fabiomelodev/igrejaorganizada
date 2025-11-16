@@ -21,13 +21,13 @@ class ModelBase extends Model
         static::creating(function ($model) {
             $model->status = (int) $model->status;
 
-            $model->church_id = Filament::getTenant()->id;
+            $model->team_id = Filament::getTenant()->id;
         });
 
         static::updating(function ($model) {
             $model->status = (int) $model->status;
 
-            $model->church_id = Filament::getTenant()->id;
+            $model->team_id = Filament::getTenant()->id;
         });
     }
 
@@ -36,13 +36,8 @@ class ModelBase extends Model
         return $query->where('status', 1);
     }
 
-    public function scopeChurchCurrent($query)
+    public function team(): BelongsTo
     {
-        return $query->where('church_id', Filament::getTenant()->id);
-    }
-
-    public function church(): BelongsTo
-    {
-        return $this->belongsTo(Church::class);
+        return $this->belongsTo(Team::class);
     }
 }

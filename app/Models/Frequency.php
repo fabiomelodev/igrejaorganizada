@@ -9,7 +9,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Frequency extends Model
 {
-    protected $guarded = ['id'];
+    protected $fillable = [
+        'date',
+        'team_id',
+        'lesson_id'
+    ];
 
     protected $casts = [
         'date' => 'datetime'
@@ -20,17 +24,12 @@ class Frequency extends Model
         parent::boot();
 
         static::creating(function ($model) {
-            $model->church_id = Filament::getTenant()->id;
+            $model->team_id = Filament::getTenant()->id;
         });
 
         static::updating(function ($model) {
-            $model->church_id = Filament::getTenant()->id;
+            $model->team_id = Filament::getTenant()->id;
         });
-    }
-
-    public function church(): BelongsTo
-    {
-        return $this->belongsTo(Church::class);
     }
 
     public function lesson(): BelongsTo
@@ -41,5 +40,10 @@ class Frequency extends Model
     public function students(): BelongsToMany
     {
         return $this->belongsToMany(Member::class, 'frequency_students', 'frequency_id', 'member_id');
+    }
+
+    public function team(): BelongsTo
+    {
+        return $this->belongsTo(Team::class);
     }
 }

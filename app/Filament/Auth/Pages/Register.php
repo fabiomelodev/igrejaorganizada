@@ -2,10 +2,8 @@
 
 namespace App\Filament\Auth\Pages;
 
-use App\Models\Church;
-use App\Models\Churchable;
-use App\Models\ChurchUser;
-use App\Models\User;
+use App\Models\Team;
+use App\Models\TeamUser;
 use Filament\Forms\Components\TextInput;
 use Filament\Auth\Pages\Register as BaseRegister;
 use Filament\Schemas\Components\Component;
@@ -17,7 +15,7 @@ class Register extends BaseRegister
 {
     protected function getChurchFormComponent(): Component
     {
-        return TextInput::make('church')
+        return TextInput::make('team')
             ->label('Igreja')
             ->required()
             ->maxLength(255)
@@ -38,9 +36,9 @@ class Register extends BaseRegister
 
     protected function handleRegistration(array $data): Model
     {
-        $church = Church::create([
-            'name' => $data['church'],
-            'slug' => Str::slug($data['church']),
+        $team = Team::create([
+            'name' => $data['team'],
+            'slug' => Str::slug($data['team']),
             'status' => 1,
             'created_at' => now(),
             'updated_at' => now()
@@ -50,12 +48,16 @@ class Register extends BaseRegister
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => $data['password'],
-            'church_id' => $church->id
+            'status' => 1,
+            'team_id' => $team->id
         ]);
 
-        $church->user_id = $user->id;
+        $team->save();
 
-        $church->save();
+        TeamUser::create([
+            'team_id' => $team->id,
+            'user_id' => $user->id
+        ]);
 
         return $user;
     }

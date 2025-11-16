@@ -36,7 +36,6 @@ class UserForm
                             ->label('Senha')
                             ->password()
                             ->revealable(filament()->arePasswordsRevealable())
-                            ->required()
                             ->rule(Password::default())
                             ->showAllValidationMessages()
                             ->dehydrateStateUsing(fn($state) => Hash::make($state))
@@ -51,23 +50,6 @@ class UserForm
                             ->disabled()
                             ->displayFormat('d/m/Y H:i')
                             ->hiddenOn('create'),
-                        Select::make('roles')
-                            ->relationship('roles', 'name')
-                            ->saveRelationshipsUsing(function (Model $record, $state) {
-                                $record->roles()->syncWithPivotValues($state, [config('permission.column_names.team_foreign_key') => getPermissionsTeamId()]);
-                            })
-                            ->multiple()
-                            ->preload()
-                            ->searchable(),
-                        // Select::make('roles')
-                        //     ->label('Função')
-                        //     ->relationship('roles', 'name', function (Builder $query): Builder {
-                        //         if (Auth::user()->isAdmin()) {
-                        //             return $query->where('name', '!=', 'super_admin');
-                        //         }
-
-                        //         return $query;
-                        //     }),
                         Toggle::make('status')
                             ->required(),
                     ])

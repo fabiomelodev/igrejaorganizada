@@ -2,7 +2,7 @@
 
 namespace App\Filament\Resources\Members\Schemas;
 
-use App\Models\Church;
+use Filament\Facades\Filament;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -52,7 +52,7 @@ class MemberForm
                             ->required(),
                         Select::make('position_id')
                             ->label('Cargo')
-                            ->relationship('position', 'name', fn(Builder $query): Builder => $query->churchCurrent())
+                            ->relationship('position', 'name', fn(Builder $query): Builder => $query->active()->where('team_id', Filament::getTenant()->id))
                             ->required(),
                         Toggle::make('status')
                             ->required(),

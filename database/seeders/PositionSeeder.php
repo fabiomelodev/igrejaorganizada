@@ -17,7 +17,7 @@ class PositionSeeder extends Seeder
             [
                 'name'       => 'Pastor 0101',
                 'status'     => 1,
-                'church_id'  => 1,
+                'team_id'    => 1,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -25,7 +25,7 @@ class PositionSeeder extends Seeder
             [
                 'name'       => 'Pastor 0201',
                 'status'     => 1,
-                'church_id'  => 2,
+                'team_id'    => 2,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],

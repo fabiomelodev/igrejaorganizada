@@ -6,23 +6,23 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class ChurchAdminSeeder extends Seeder
+class TeamSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        DB::table('church_admins')->insert([
+        DB::table('teams')->insert([
             [
-                'church_id' => 1,
-                'user_id' => 2,
+                'name' => 'Geral',
+                'slug' => 'geral'
             ],
 
-            [
-                'church_id' => 1,
-                'user_id' => 3,
-            ],
+            // [
+            //     'name' => 'Igreja 0201',
+            //     'slug' => 'igreja-0201'
+            // ],
         ]);
     }
 }

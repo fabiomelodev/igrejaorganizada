@@ -1,8 +1,8 @@
 <?php
 
-use App\Models\Church;
 use App\Models\Member;
 use App\Models\School;
+use App\Models\Team;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -22,7 +22,7 @@ return new class extends Migration
             $table->enum('time', ['night', 'afternoon', 'morning', 'not_defined'])->default('not_defined');
             $table->enum('progress', ['finished', 'paused', 'course', 'preparing'])->default('preparing');
             $table->boolean('status')->default(1);
-            $table->foreignIdFor(Church::class);
+            $table->foreignIdFor(Team::class);
             $table->foreignIdFor(School::class);
             $table->foreignIdFor(Member::class, 'teacher_id');
             $table->timestamps();

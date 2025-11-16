@@ -4,22 +4,20 @@ namespace App\Models;
 
 use Filament\Facades\Filament;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Auth;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasTenants;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class User extends Authenticatable implements FilamentUser, HasTenants
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, HasRoles;
+    use HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -31,7 +29,7 @@ class User extends Authenticatable implements FilamentUser, HasTenants
         'email',
         'password',
         'status',
-        'church_id'
+        'team_id'
     ];
 
     /**
@@ -65,7 +63,9 @@ class User extends Authenticatable implements FilamentUser, HasTenants
         static::creating(function ($model) {
             $model->status = (int) $model->status;
 
-            $model->church_id = Filament::getTenant()->id;
+            if (Filament::getTenant()) {
+                $model->team_id = Filament::getTenant()->id;
+            }
         });
 
         static::updating(function ($model) {
@@ -73,10 +73,21 @@ class User extends Authenticatable implements FilamentUser, HasTenants
         });
     }
 
+    public function team(): BelongsTo
+    {
+        return $this->belongsTo(Team::class);
+    }
+
+    public function teams(): BelongsToMany
+    {
+        return $this->belongsToMany(Team::class);
+    }
+
     public function getTenants(Panel $panel): Collection
     {
-        return Church::query()->get();
+        return $this->teams;
     }
+
 
     public function canAccessPanel(Panel $panel): bool
     {
@@ -85,7 +96,7 @@ class User extends Authenticatable implements FilamentUser, HasTenants
 
     public function canAccessTenant(Model $tenant): bool
     {
-        return $this->church()->whereKey($tenant)->exists();
+        return $this->teams()->whereKey($tenant)->exists();
     }
 
     public function isSuperAdmin(): bool
@@ -104,10 +115,5 @@ class User extends Authenticatable implements FilamentUser, HasTenants
         // return $this->roles()
         //     ->where('name', 'admin')
         //     ->exists();
-    }
-
-    public function church(): BelongsTo
-    {
-        return $this->belongsTo(Church::class);
     }
 }

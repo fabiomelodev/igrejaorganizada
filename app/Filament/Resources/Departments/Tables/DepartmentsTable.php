@@ -1,32 +1,25 @@
 <?php
 
-namespace App\Filament\Resources\Users\Tables;
+namespace App\Filament\Resources\Departments\Tables;
 
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
-use Filament\Facades\Filament;
 use Filament\Support\Enums\IconPosition;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Support\Facades\Auth;
 
-class UsersTable
+class DepartmentsTable
 {
     public static function configure(Table $table): Table
     {
         return $table
             ->columns([
                 TextColumn::make('name')
-                    ->label('Nome completo')
+                    ->label('Nome')
                     ->searchable(),
-                TextColumn::make('email')
-                    ->label('E-mail')
-                    ->searchable(),
-                TextColumn::make('department.name')
-                    ->label('Departamento'),
                 TextColumn::make('status')
                     ->tooltip(fn($record): string => match ($record->status) {
                         1 => 'Ativo',
@@ -50,40 +43,17 @@ class UsersTable
                     }),
                 TextColumn::make('created_at')
                     ->label('Criado em')
-                    ->dateTime()
+                    ->dateTime('d/m/Y')
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //
             ])
             ->recordActions([
                 EditAction::make()
-                    ->iconButton()
-                    ->visible(function ($record) {
-                        if (Auth::user()->id == Filament::getTenant()->user_id) {
-                            return true;
-                        }
-
-                        if ($record->id == Filament::getTenant()->user_id) {
-                            return false;
-                        }
-
-                        return true;
-                    }),
+                    ->iconButton(),
                 DeleteAction::make()
-                    ->iconButton()
-                    ->visible(function ($record) {
-                        if (Auth::user()->id == Filament::getTenant()->user_id) {
-                            return true;
-                        }
-
-                        if ($record->id == Filament::getTenant()->user_id) {
-                            return false;
-                        }
-
-                        return true;
-                    }),
+                    ->iconButton(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

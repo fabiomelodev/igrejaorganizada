@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Department;
 use App\Models\Team;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -19,6 +20,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->boolean('status')->default(1);
+            $table->foreignIdFor(Department::class)->nullable();
             $table->foreignIdFor(Team::class)->nullable();
             $table->rememberToken();
             $table->timestamps();

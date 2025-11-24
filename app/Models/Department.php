@@ -3,14 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Str;
 
-class Team extends Model
+class Department extends Model
 {
-    protected $fillable = [
-        'name',
-        'slug'
+    protected $guarded = ['id'];
+
+    protected $casts = [
+        'status' => 'boolean'
     ];
 
     protected static function boot()
@@ -19,15 +19,14 @@ class Team extends Model
 
         static::creating(function ($model) {
             $model->slug = Str::slug($model->name);
+
+            $model->status = (int) $model->status;
         });
 
         static::updating(function ($model) {
             $model->slug = Str::slug($model->name);
-        });
-    }
 
-    public function users(): BelongsToMany
-    {
-        return $this->belongsToMany(User::class, 'team_users', 'team_id', 'user_id');
+            $model->status = (int) $model->status;
+        });
     }
 }

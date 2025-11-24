@@ -11,8 +11,10 @@ use Filament\Models\Contracts\HasTenants;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Filament\Panel;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable implements FilamentUser, HasTenants
 {
@@ -73,21 +75,26 @@ class User extends Authenticatable implements FilamentUser, HasTenants
         });
     }
 
-    public function team(): BelongsTo
+    public function department(): BelongsTo
     {
-        return $this->belongsTo(Team::class);
+        return $this->belongsTo(Department::class);
     }
+
+    // public function team(): BelongsTo
+    // {
+    //     return $this->belongsTo(Team::class);
+    // }
 
     public function teams(): BelongsToMany
     {
-        return $this->belongsToMany(Team::class);
+        return $this->belongsToMany(Team::class, 'team_users', 'user_id', 'team_id');
     }
 
     public function getTenants(Panel $panel): Collection
     {
-        return $this->teams;
+        // dd($this->teams);
+        return $this->teams()->withoutGlobalScopes()->get();
     }
-
 
     public function canAccessPanel(Panel $panel): bool
     {

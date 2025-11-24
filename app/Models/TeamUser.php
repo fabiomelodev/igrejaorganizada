@@ -7,6 +7,4 @@ use Illuminate\Database\Eloquent\Model;
 class TeamUser extends Model
 {
     protected $guarded = ['id'];
-
-    protected $table = 'team_user';
 }

@@ -3,6 +3,8 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Auth\Pages\Register;
+use BezhanSalleh\FilamentShield\Middleware\SyncShieldTenant;
+use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use App\Filament\Pages\Tenancy\RegisterTeam;
 use App\Models\Team;
 use Filament\Http\Middleware\Authenticate;
@@ -57,11 +59,10 @@ class AdminPanelProvider extends PanelProvider
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
             ])
-            ->plugins([])
             ->authMiddleware([
                 Authenticate::class,
             ])
-            ->tenant(Team::class);
-        // ->tenantRegistration(RegisterTeam::class);
+            ->tenant(Team::class, ownershipRelationship: 'teams')
+            ->tenantRegistration(RegisterTeam::class);
     }
 }

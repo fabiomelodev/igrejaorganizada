@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Cult;
 use App\Models\Team;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -12,11 +13,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('departments', function (Blueprint $table) {
+        Schema::create('team_cults', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('slug');
-            $table->boolean('status')->default(1);
+            $table->foreignIdFor(Team::class);
+            $table->foreignIdFor(Cult::class);
             $table->timestamps();
         });
     }
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('departments');
+        Schema::dropIfExists('team_cults');
     }
 };

@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Cults\Pages;
 
 use App\Filament\Resources\Cults\CultResource;
+use App\Filament\Resources\Pages\BaseListRecords;
 use App\Livewire\CultsFilterWeekFridayTable;
 use App\Livewire\CultsFilterWeekMondayTable;
 use App\Livewire\CultsFilterWeekSaturdayTable;
@@ -10,21 +11,10 @@ use App\Livewire\CultsFilterWeekSundayTable;
 use App\Livewire\CultsFilterWeekThursdayTable;
 use App\Livewire\CultsFilterWeekTuesdayTable;
 use App\Livewire\CultsFilterWeekWednesdayTable;
-use Filament\Actions\CreateAction;
-use Filament\Resources\Pages\ListRecords;
 
-class ListCults extends ListRecords
+class ListCults extends BaseListRecords
 {
     protected static string $resource = CultResource::class;
-
-    protected function getHeaderActions(): array
-    {
-        return [
-            CreateAction::make()
-                ->label('Culto')
-                ->icon('heroicon-o-plus')
-        ];
-    }
 
     public function getHeaderWidgetsColumns(): int | array
     {

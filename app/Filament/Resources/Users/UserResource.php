@@ -15,6 +15,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Auth;
 use UnitEnum;
 
 class UserResource extends Resource
@@ -30,8 +31,6 @@ class UserResource extends Resource
     protected static ?string $recordTitleAttribute = 'User';
 
     protected static string | UnitEnum | null $navigationGroup = 'Administrativo';
-
-    // protected static bool $isScopedToTenant = false;
 
     public static function form(Schema $schema): Schema
     {
@@ -60,7 +59,7 @@ class UserResource extends Resource
         return [
             'index' => ListUsers::route('/'),
             'create' => CreateUser::route('/create'),
-            'view' => ViewUser::route('/{record}'),
+            // 'view' => ViewUser::route('/{record}'),
             'edit' => EditUser::route('/{record}/edit'),
         ];
     }

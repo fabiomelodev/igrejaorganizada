@@ -19,51 +19,10 @@ class UserSeeder extends Seeder
                 'email' => 'fabiomelodev@gmail.com',
                 'password' => bcrypt('homolog123'),
                 'status' => 1,
-                'department_id' => 1,
                 'team_id' => 1,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
-
-            // [
-            //     'name'       => 'Usuário 0101',
-            //     'email'      => 'usuario0101@gmail.com',
-            //     'password'   => bcrypt('homolog123'),
-            //     'status'     => 1,
-            //     'team_id'    => 1,
-            //     'created_at' => now(),
-            //     'updated_at' => now(),
-            // ],
-
-            // [
-            //     'name'       => 'Usuário 0102',
-            //     'email'      => 'usuario0102@gmail.com',
-            //     'password'   => bcrypt('homolog123'),
-            //     'status'     => 1,
-            //     'team_id'    => 1,
-            //     'created_at' => now(),
-            //     'updated_at' => now(),
-            // ],
-
-            // [
-            //     'name'       => 'Usuário 0201',
-            //     'email'      => 'usuario0201@gmail.com',
-            //     'password'   => bcrypt('homolog123'),
-            //     'status'     => 1,
-            //     'team_id'    => 2,
-            //     'created_at' => now(),
-            //     'updated_at' => now(),
-            // ],
-
-            // [
-            //     'name'       => 'Usuário 0202',
-            //     'email'      => 'usuario0202@gmail.com',
-            //     'password'   => bcrypt('homolog123'),
-            //     'status'     => 1,
-            //     'team_id'    => 2,
-            //     'created_at' => now(),
-            //     'updated_at' => now(),
-            // ],
         ]);
     }
 }

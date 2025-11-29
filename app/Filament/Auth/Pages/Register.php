@@ -4,6 +4,7 @@ namespace App\Filament\Auth\Pages;
 
 use App\Models\Team;
 use App\Models\TeamUser;
+use App\Models\User;
 use Filament\Forms\Components\TextInput;
 use Filament\Auth\Pages\Register as BaseRegister;
 use Filament\Schemas\Components\Component;
@@ -52,11 +53,22 @@ class Register extends BaseRegister
             'team_id' => $team->id
         ]);
 
+        if (!$user->hasRole('Administrador')) {
+            $user->assignRole('Administrador');
+        }
+
         $team->save();
+
+        $userSuperAdmin = User::role('super_admin')->first();
 
         TeamUser::create([
             'team_id' => $team->id,
             'user_id' => $user->id
+        ]);
+
+        TeamUser::create([
+            'team_id' => $team->id,
+            'user_id' => $userSuperAdmin->id
         ]);
 
         return $user;

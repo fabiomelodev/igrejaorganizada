@@ -15,11 +15,12 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements FilamentUser, HasTenants
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -74,16 +75,6 @@ class User extends Authenticatable implements FilamentUser, HasTenants
             $model->status = (int) $model->status;
         });
     }
-
-    public function department(): BelongsTo
-    {
-        return $this->belongsTo(Department::class);
-    }
-
-    // public function team(): BelongsTo
-    // {
-    //     return $this->belongsTo(Team::class);
-    // }
 
     public function teams(): BelongsToMany
     {

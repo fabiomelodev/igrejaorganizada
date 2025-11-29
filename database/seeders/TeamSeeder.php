@@ -16,12 +16,9 @@ class TeamSeeder extends Seeder
         DB::table('teams')->insert([
             [
                 'name' => 'Geral',
-                'slug' => 'geral'
-            ],
-
-            [
-                'name' => 'Igreja 0101',
-                'slug' => 'igreja-0101'
+                'slug' => 'geral',
+                'created_at' => now(),
+                'updated_at' => now()
             ],
         ]);
     }

@@ -5,13 +5,11 @@ namespace App\Livewire;
 use App\Models\Cult;
 use Illuminate\Database\Eloquent\Builder;
 use App\Livewire\CultsFilterWeekTable;
+use Illuminate\Support\Facades\Auth;
 
 class CultsFilterWeekSundayTable extends CultsFilterWeekTable
 {
-    public function getQuery(): Builder
-    {
-        return Cult::query()->active()->where('week', 'sunday');
-    }
+    protected string | null $dayWeek = 'sunday';
 
     public function getHeading(): string
     {

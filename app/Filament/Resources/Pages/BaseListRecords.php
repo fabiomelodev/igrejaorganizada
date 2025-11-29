@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Filament\Resources\Users\Pages;
+namespace App\Filament\Resources\Pages;
 
-use App\Filament\Resources\Pages\BaseListRecords;
 use App\Filament\Resources\Users\UserResource;
 use Filament\Actions\CreateAction;
 use Filament\Facades\Filament;
@@ -10,9 +9,18 @@ use Filament\Resources\Pages\ListRecords;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 
-class ListUsers extends ListRecords
+class BaseListRecords extends ListRecords
 {
     protected static string $resource = UserResource::class;
+
+    protected function getHeaderActions(): array
+    {
+        return [
+            CreateAction::make()
+                ->label(static::getResource()::getModelLabel())
+                ->icon('heroicon-o-plus')
+        ];
+    }
 
     protected function getTableQuery(): Builder
     {
@@ -20,8 +28,6 @@ class ListUsers extends ListRecords
             return static::getResource()::getEloquentQuery()->withoutGlobalScopes();
         }
 
-        return static::getResource()::getEloquentQuery()->whereHas('roles', function (Builder $query): Builder {
-            return $query->where('name', '!=', 'super_admin');
-        });
+        return static::getResource()::getEloquentQuery();
     }
 }

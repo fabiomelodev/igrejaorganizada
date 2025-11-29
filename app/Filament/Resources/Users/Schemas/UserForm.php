@@ -41,10 +41,20 @@ class UserForm
                             ->dehydrateStateUsing(fn($state) => Hash::make($state))
                             // ->same('passwordConfirmation')
                             ->validationAttribute(__('filament-panels::auth/pages/register.form.password.validation_attribute'))
+                            ->required(fn($livewire) => $livewire instanceof \Filament\Resources\Pages\CreateRecord)
                     ]),
                 Section::make()
                     ->columnSpan(3)
                     ->schema([
+                        Select::make('roles')
+                            ->label('Função')
+                            ->relationship('roles', 'name', function (Builder $query): Builder {
+                                return $query->where('name', '!=', 'super_admin');
+                            })
+                            ->multiple()
+                            ->preload()
+                            ->searchable()
+                            ->required(),
                         DatePicker::make('created_at')
                             ->label('Criado em')
                             ->disabled()

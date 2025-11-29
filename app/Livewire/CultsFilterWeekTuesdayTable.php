@@ -8,10 +8,7 @@ use App\Livewire\CultsFilterWeekTable;
 
 class CultsFilterWeekTuesdayTable extends CultsFilterWeekTable
 {
-    public function getQuery(): Builder
-    {
-        return Cult::query()->active()->where('week', 'tuesday');
-    }
+    protected string | null $dayWeek = 'tuesday';
 
     public function getHeading(): string
     {

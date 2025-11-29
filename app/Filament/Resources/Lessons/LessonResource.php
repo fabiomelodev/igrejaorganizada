@@ -12,6 +12,7 @@ use App\Filament\Resources\Lessons\Schemas\LessonInfolist;
 use App\Filament\Resources\Lessons\Tables\LessonsTable;
 use App\Models\Lesson;
 use BackedEnum;
+use Filament\Facades\Filament;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -31,6 +32,11 @@ class LessonResource extends Resource
     protected static ?string $recordTitleAttribute = 'Lesson';
 
     protected static string | UnitEnum | null $navigationGroup = 'Ensino';
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        return Filament::getTenant()->slug == 'geral' ? false : true;
+    }
 
     public static function form(Schema $schema): Schema
     {

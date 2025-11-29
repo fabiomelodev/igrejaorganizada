@@ -11,6 +11,7 @@ use App\Filament\Resources\Cults\Schemas\CultInfolist;
 use App\Filament\Resources\Cults\Tables\CultsTable;
 use App\Models\Cult;
 use BackedEnum;
+use Filament\Facades\Filament;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -30,6 +31,11 @@ class CultResource extends Resource
     protected static ?string $recordTitleAttribute = 'Cult';
 
     protected static string | UnitEnum | null $navigationGroup = 'Geral';
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        return Filament::getTenant()->slug == 'geral' ? false : true;
+    }
 
     public static function form(Schema $schema): Schema
     {

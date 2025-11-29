@@ -11,6 +11,7 @@ use App\Filament\Resources\Schools\Schemas\SchoolInfolist;
 use App\Filament\Resources\Schools\Tables\SchoolsTable;
 use App\Models\School;
 use BackedEnum;
+use Filament\Facades\Filament;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -30,6 +31,11 @@ class SchoolResource extends Resource
     protected static ?string $recordTitleAttribute = 'School';
 
     protected static string | UnitEnum | null $navigationGroup = 'Ensino';
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        return Filament::getTenant()->slug == 'geral' ? false : true;
+    }
 
     public static function form(Schema $schema): Schema
     {

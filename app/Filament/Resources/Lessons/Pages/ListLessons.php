@@ -3,22 +3,13 @@
 namespace App\Filament\Resources\Lessons\Pages;
 
 use App\Filament\Resources\Lessons\LessonResource;
+use App\Filament\Resources\Pages\BaseListRecords;
 use App\Livewire\LessonsStatusWidget;
 use Filament\Actions\CreateAction;
-use Filament\Resources\Pages\ListRecords;
 
-class ListLessons extends ListRecords
+class ListLessons extends BaseListRecords
 {
     protected static string $resource = LessonResource::class;
-
-    protected function getHeaderActions(): array
-    {
-        return [
-            CreateAction::make()
-                ->label('Classe')
-                ->icon('heroicon-o-plus')
-        ];
-    }
 
     public function getHeaderWidgetsColumns(): int | array
     {

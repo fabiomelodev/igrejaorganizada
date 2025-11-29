@@ -42,8 +42,8 @@ class Frequency extends Model
         return $this->belongsToMany(Member::class, 'frequency_students', 'frequency_id', 'member_id');
     }
 
-    public function team(): BelongsTo
+    public function teams(): BelongsToMany
     {
-        return $this->belongsTo(Team::class);
+        return $this->belongsToMany(Team::class, 'team_frequencies', 'frequency_id', 'team_id');
     }
 }

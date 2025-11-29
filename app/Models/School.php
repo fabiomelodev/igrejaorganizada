@@ -2,4 +2,12 @@
 
 namespace App\Models;
 
-class School extends ModelBase {}
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+
+class School extends ModelBase
+{
+    public function teams(): BelongsToMany
+    {
+        return $this->belongsToMany(Team::class, 'team_schools', 'school_id', 'team_id');
+    }
+}

@@ -8,6 +8,7 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Auth;
 
 class TeamsTable
 {
@@ -30,7 +31,14 @@ class TeamsTable
                 EditAction::make()
                     ->iconButton(),
                 DeleteAction::make()
-                    ->iconButton(),
+                    ->iconButton()
+                    ->visible(function () {
+                        if (Auth::user()->hasRole('super_admin')) {
+                            return true;
+                        }
+
+                        return false;
+                    }),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

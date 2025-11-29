@@ -41,7 +41,7 @@ class LessonsTable
                     ->formatStateUsing(fn(string $state): string => match ($state) {
                         'morning'   => 'Manhã',
                         'afternoon' => 'Tarde',
-                        'evening'   => 'Noite',
+                        'night'     => 'Noite',
                     }),
                 TextColumn::make('progress')
                     ->badge()

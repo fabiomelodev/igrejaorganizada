@@ -23,4 +23,9 @@ class Member extends ModelBase
     {
         return $this->belongsTo(Position::class);
     }
+
+    public function teams(): BelongsToMany
+    {
+        return $this->belongsToMany(Team::class, 'team_members', 'member_id', 'team_id');
+    }
 }

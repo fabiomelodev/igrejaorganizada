@@ -41,4 +41,9 @@ class Lesson extends ModelBase
     {
         return $this->belongsTo(Member::class, 'teacher_id');
     }
+
+    public function teams(): BelongsToMany
+    {
+        return $this->belongsToMany(Team::class, 'team_lessons', 'lesson_id', 'team_id');
+    }
 }

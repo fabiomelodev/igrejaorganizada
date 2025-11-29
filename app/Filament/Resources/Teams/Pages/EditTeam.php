@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Teams\Pages;
 use App\Filament\Resources\Teams\TeamResource;
 use Filament\Actions\DeleteAction;
 use Filament\Resources\Pages\EditRecord;
+use Illuminate\Support\Facades\Auth;
 
 class EditTeam extends EditRecord
 {
@@ -13,7 +14,14 @@ class EditTeam extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            DeleteAction::make(),
+            DeleteAction::make()
+                ->visible(function () {
+                    if (Auth::user()->hasRole('super_admin')) {
+                        return true;
+                    }
+
+                    return false;
+                }),
         ];
     }
 }

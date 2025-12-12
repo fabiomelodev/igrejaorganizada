@@ -15,6 +15,8 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             TeamSeeder::class,
             TeamUserSeeder::class,
+            PaymentMethodSeeder::class,
+            CategorySeeder::class
             // PositionSeeder::class,
             // MemberSeeder::class,
             // SchoolSeeder::class,

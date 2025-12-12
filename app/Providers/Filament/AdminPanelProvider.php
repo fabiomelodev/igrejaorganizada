@@ -38,6 +38,8 @@ class AdminPanelProvider extends PanelProvider
             ->colors([
                 'primary' => Color::Violet,
             ])
+            ->brandLogo(fn() => view('filament.admin.logo'))
+            ->brandLogoHeight('6rem')
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
             ->pages([])
@@ -64,6 +66,7 @@ class AdminPanelProvider extends PanelProvider
                 Authenticate::class,
             ])
             ->tenant(Team::class, ownershipRelationship: 'teams')
-            ->tenantRegistration(RegisterTeam::class);
+            ->tenantRegistration(RegisterTeam::class)
+            ->viteTheme('resources/css/filament/admin/theme.css');
     }
 }

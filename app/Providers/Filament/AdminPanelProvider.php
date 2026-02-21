@@ -6,6 +6,7 @@ use App\Filament\Auth\Pages\Register;
 use BezhanSalleh\FilamentShield\Middleware\SyncShieldTenant;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use App\Filament\Pages\Tenancy\RegisterTeam;
+use App\Http\Middleware\CheckSubscription;
 use App\Models\Team;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
@@ -67,6 +68,9 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->tenant(Team::class, ownershipRelationship: 'teams')
             ->tenantRegistration(RegisterTeam::class)
-            ->viteTheme('resources/css/filament/admin/theme.css');
+            ->viteTheme('resources/css/filament/admin/theme.css')
+            ->tenantMiddleware([
+                CheckSubscription::class,
+            ], isPersistent: true);
     }
 }

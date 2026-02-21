@@ -92,6 +92,11 @@ class Team extends Model
         return $this->belongsTo(Plan::class);
     }
 
+    public function subscriptions()
+    {
+        return $this->hasMany(\Laravel\Cashier\Subscription::class, 'user_id')->orderBy('created_at', 'desc');
+    }
+
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'team_users', 'team_id', 'user_id');

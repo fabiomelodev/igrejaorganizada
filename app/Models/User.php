@@ -99,11 +99,7 @@ class User extends Authenticatable implements FilamentUser, HasTenants
 
     public function isSuperAdmin(): bool
     {
-        return true;
-
-        // return $this->roles()
-        //     ->where('name', 'super_admin')
-        //     ->exists();
+        return auth()->user()->hasRole('super_admin');
     }
 
     public function isAdmin(): bool

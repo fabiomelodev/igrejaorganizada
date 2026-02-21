@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Cults;
 
+use App\Constants\FeatureKey;
 use App\Filament\Resources\Cults\Pages\CreateCult;
 use App\Filament\Resources\Cults\Pages\EditCult;
 use App\Filament\Resources\Cults\Pages\ListCults;
@@ -30,11 +31,16 @@ class CultResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'Cult';
 
-    protected static string | UnitEnum | null $navigationGroup = 'Geral';
+    protected static string|UnitEnum|null $navigationGroup = 'Geral';
 
     public static function shouldRegisterNavigation(): bool
     {
         return Filament::getTenant()->slug == 'geral' ? false : true;
+    }
+
+    public static function canViewAny(): bool
+    {
+        return Filament::getTenant()->hasFeature(FeatureKey::CULT_MODULE);
     }
 
     public static function form(Schema $schema): Schema

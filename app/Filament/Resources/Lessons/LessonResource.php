@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Lessons;
 
+use App\Constants\FeatureKey;
 use App\Filament\Resources\Lessons\Pages\CreateLesson;
 use App\Filament\Resources\Lessons\Pages\EditLesson;
 use App\Filament\Resources\Lessons\Pages\ListLessons;
@@ -31,11 +32,16 @@ class LessonResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'Lesson';
 
-    protected static string | UnitEnum | null $navigationGroup = 'Ensino';
+    protected static string|UnitEnum|null $navigationGroup = 'Ensino';
 
     public static function shouldRegisterNavigation(): bool
     {
         return Filament::getTenant()->slug == 'geral' ? false : true;
+    }
+
+    public static function canViewAny(): bool
+    {
+        return Filament::getTenant()->hasFeature(FeatureKey::LESSON_MODULE);
     }
 
     public static function form(Schema $schema): Schema

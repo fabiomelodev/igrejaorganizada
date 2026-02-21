@@ -21,7 +21,7 @@ class CheckSubscription
         $team = Filament::getTenant();
 
         // Se a igreja não estiver assinada em nenhum plano ativo
-        if ($team && !$team->subscribed('main')) {
+        if ($team && !$team->subscribed('default')) {
             // Se ela já não estiver na página de planos, redireciona para lá
             if (!$request->routeIs('filament.app.pages.settings.plan-selector')) {
                 Notification::make()

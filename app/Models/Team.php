@@ -6,8 +6,10 @@ use App\Constants\FeatureKey;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 use Laravel\Cashier\Billable;
+use Laravel\Cashier\Subscription;
 
 class Team extends Model
 {
@@ -92,9 +94,9 @@ class Team extends Model
         return $this->belongsTo(Plan::class);
     }
 
-    public function subscriptions()
+    public function subscriptions(): HasMany
     {
-        return $this->hasMany(\Laravel\Cashier\Subscription::class, 'user_id')->orderBy('created_at', 'desc');
+        return $this->hasMany(Subscription::class, 'team_id')->orderBy('created_at', 'desc');
     }
 
     public function users(): BelongsToMany

@@ -18,20 +18,30 @@ class CheckSubscription
      */
     public function handle(Request $request, Closure $next)
     {
-        $team = Filament::getTenant();
+        $church = \Filament\Facades\Filament::getTenant();
 
-        // Se a igreja não estiver assinada em nenhum plano ativo
-        if ($team && !$team->subscribed('default')) {
-            // Se ela já não estiver na página de planos, redireciona para lá
-            if (!$request->routeIs('filament.app.pages.settings.plan-selector')) {
-                Notification::make()
-                    ->warning()
-                    ->title('Assinatura Necessária')
-                    ->body('Seu período de teste acabou ou sua assinatura está inativa.')
-                    ->send();
+        // 1. Se não houver igreja (tenant) selecionada ainda, segue viagem
+        if (!$church) {
+            return $next($request);
+        }
 
-                return redirect()->to(PlanSelector::getUrl());
+        // 2. DEFINE AQUI A ROTA DE EXCEÇÃO
+        // Substitua pelo nome real da sua rota ou slug da página
+        $planPageUrl = 'settings/plan-selector';
+
+        if (!$church->subscribed('default')) {
+            // Se a requisição atual JÁ FOR para a página de planos, não redireciona!
+            if ($request->is("*$planPageUrl*")) {
+                return $next($request);
             }
+
+            \Filament\Notifications\Notification::make()
+                ->warning()
+                ->title('Assinatura Necessária')
+                ->send();
+
+            // Redireciona para a página de planos
+            return redirect()->to(\App\Filament\Pages\Settings\PlanSelector::getUrl());
         }
 
         return $next($request);

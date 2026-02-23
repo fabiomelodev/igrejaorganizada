@@ -18,32 +18,25 @@ class CheckSubscription
      */
     public function handle(Request $request, Closure $next)
     {
-        $church = \Filament\Facades\Filament::getTenant();
+        $team = Filament::getTenant();
 
-        // 1. Se não houver igreja, segue o fluxo normal (login/seleção de igreja)
-        if (!$church) {
+        if (!$team) {
             return $next($request);
         }
 
-        // 2. Identifica a página de planos (Slug que aparece na URL)
-        // No seu caso, a URL termina em 'plan-selector'
-        $isPlanPage = str_contains($request->url(), 'plan-selector');
+        $freePlanId = 1;
 
-        // 3. Verifica a assinatura
-        // Importante: use 'default' que é o padrão do Cashier se você não nomeou a assinatura
-        if (!$church->subscribed('default')) {
-
-            // Se ele JÁ ESTIVER na página de planos, permite o acesso (QUEBRA O LOOP)
-            if ($isPlanPage) {
-                return $next($request);
-            }
-
-            // Caso contrário, manda para lá
-            return redirect()->to(\App\Filament\Pages\Settings\PlanSelector::getUrl());
+        if ($team->plan_id == $freePlanId) {
+            return $next($request);
         }
 
-        // 4. Se ele tem assinatura mas tentou entrar na página de planos, 
-        // opcionalmente você pode tirar ele de lá, mas o 'next' é mais seguro.
+        if (!$team->subscribed('default')) {
+
+            if (!str_contains($request->url(), 'plan-selector')) {
+                return $next($request);
+            }
+        }
+
         return $next($request);
     }
 }

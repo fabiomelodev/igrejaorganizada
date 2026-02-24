@@ -66,9 +66,10 @@ class Team extends Model
         }
 
         $currentCount = match ($featureKey) {
+            FeatureKey::CULT_LIMIT => $this->cults()->count(),
             FeatureKey::LESSON_LIMIT => $this->lessons()->count(),
             FeatureKey::MEMBER_LIMIT => $this->members()->count(),
-            FeatureKey::CULT_LIMIT => $this->cults()->count(),
+            FeatureKey::SCHOOL_LIMIT => $this->schools()->count(),
             default => 0,
         };
 
@@ -81,11 +82,18 @@ class Team extends Model
 
         return cache()->remember($cacheKey, now()->addDay(), function () use ($featureKey) {
             return match ($featureKey) {
+                FeatureKey::CULT_LIMIT => $this->cults()->count(),
+                FeatureKey::LESSON_LIMIT => $this->lessons()->count(),
                 FeatureKey::MEMBER_LIMIT => $this->members()->count(),
                 FeatureKey::SCHOOL_LIMIT => $this->classes()->count(),
                 default => 0,
             };
         });
+    }
+
+    public function cults(): BelongsToMany
+    {
+        return $this->belongsToMany(Cult::class, 'team_cults', 'team_id', 'cult_id');
     }
 
     public function lessons(): BelongsToMany
@@ -101,6 +109,11 @@ class Team extends Model
     public function plan(): BelongsTo
     {
         return $this->belongsTo(Plan::class);
+    }
+
+    public function schools(): BelongsToMany
+    {
+        return $this->belongsToMany(School::class, 'team_schools', 'team_id', 'school_id');
     }
 
     public function subscriptions(): HasMany

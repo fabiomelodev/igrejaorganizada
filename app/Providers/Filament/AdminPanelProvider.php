@@ -37,7 +37,7 @@ class AdminPanelProvider extends PanelProvider
             ->registration(Register::class)
             ->sidebarCollapsibleOnDesktop()
             ->colors([
-                'primary' => Color::Violet,
+                'primary' => Color::Teal,
             ])
             ->brandLogo(fn() => view('filament.admin.logo'))
             ->brandLogoHeight('6rem')

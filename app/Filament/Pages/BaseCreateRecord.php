@@ -10,8 +10,6 @@ class BaseCreateRecord extends CreateRecord
 {
     use CheckPlanLimits;
 
-    protected static string $resource = MemberResource::class;
-
     protected static string|null $moduleLimit = null;
 
     public function mount(): void

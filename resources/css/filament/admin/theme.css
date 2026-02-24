@@ -2,3 +2,12 @@
 
 @source '../../../../app/Filament/**/*';
 @source '../../../../resources/views/filament/**/*';
+@source '../../../../vendor/harvirsidhu/filament-cards/resources/views';
+
+.fi-wi-stats-overview-stat-label-custom {
+    color: var(--primary-600);
+}
+
+.fi-wi-stats-overview-stat-label-ctn-custom svg {
+    fill: var(--primary-600);
+}

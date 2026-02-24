@@ -5,8 +5,9 @@ namespace App\Livewire;
 use App\Constants\FeatureKey;
 use App\Models\Lesson;
 use Filament\Facades\Filament;
+use Filament\Support\Icons\Heroicon;
 use Filament\Widgets\StatsOverviewWidget;
-use Filament\Widgets\StatsOverviewWidget\Stat;
+use Filament\Widgets\StatsOverviewWidget\StatCustom;
 
 class LessonsStatusWidget extends StatsOverviewWidget
 {
@@ -17,9 +18,12 @@ class LessonsStatusWidget extends StatsOverviewWidget
         $lessonsFinishedCount = Lesson::query()->active()->where('progress', 'finished')->count();
 
         return [
-            Stat::make('Classe(s) Cursando(s)', $lessonsCourseCount),
-            Stat::make('Classe(s) Finalizada(s)', $lessonsFinishedCount),
-            Stat::make('Limite de Classes', Filament::getTenant()->getLimit(FeatureKey::LESSON_LIMIT)),
+            StatCustom::make('Classe(s) Cursando(s)', $lessonsCourseCount)
+                ->icon(Heroicon::Home),
+            StatCustom::make('Classe(s) Finalizada(s)', $lessonsFinishedCount)
+                ->icon(Heroicon::Home),
+            StatCustom::make('Limite de Classes', Filament::getTenant()->getLimit(FeatureKey::LESSON_LIMIT))
+                ->icon(Heroicon::Document),
         ];
     }
 }

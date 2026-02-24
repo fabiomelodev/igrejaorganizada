@@ -2,10 +2,13 @@
 
 namespace App\Filament\Resources\Schools\Pages;
 
+use App\Constants\FeatureKey;
+use App\Filament\Pages\BaseCreateRecord;
 use App\Filament\Resources\Schools\SchoolResource;
-use Filament\Resources\Pages\CreateRecord;
 
-class CreateSchool extends CreateRecord
+class CreateSchool extends BaseCreateRecord
 {
     protected static string $resource = SchoolResource::class;
+
+    protected static string|null $moduleLimit = FeatureKey::SCHOOL_LIMIT;
 }

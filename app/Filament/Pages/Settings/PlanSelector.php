@@ -87,18 +87,26 @@ class PlanSelector extends Page
 
         $plan = Plan::find($planId);
 
-        if (!$plan->stripe_price_id) {
+        if (!$plan || !$plan->stripe_price_id) {
             return;
         }
 
-        // Em vez de retornar diretamente, criamos a sessão e pegamos a URL
+        // O Checkout recebe: 
+        // 1. O ID do Preço (Array)
+        // 2. Opções da Sessão (Onde entram os metadados e URLs)
         $checkout = $team->checkout([$plan->stripe_price_id], [
             'success_url' => static::getUrl() . '?success=true',
             'cancel_url' => static::getUrl() . '?canceled=true',
-            'mode' => 'subscription',
+            'metadata' => [
+                'plan_id' => $plan->id, // <--- Isso aqui é o que o seu Listener precisa!
+            ],
+            'subscription_data' => [
+                'metadata' => [
+                    'plan_id' => $plan->id, // Replicamos aqui por segurança para a Subscription
+                ],
+            ],
         ]);
 
-        // O segredo está aqui: redirecionamos usando o helper do Livewire/Filament
         return redirect($checkout->url);
     }
 }

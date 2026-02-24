@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Schools;
 
+use App\Constants\FeatureKey;
 use App\Filament\Resources\Schools\Pages\CreateSchool;
 use App\Filament\Resources\Schools\Pages\EditSchool;
 use App\Filament\Resources\Schools\Pages\ListSchools;
@@ -24,17 +25,22 @@ class SchoolResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBookOpen;
 
+    protected static ?string $recordTitleAttribute = 'School';
+
     protected static ?string $label = 'Escola';
 
     protected static ?string $pluralLabel = 'Escolas';
 
-    protected static ?string $recordTitleAttribute = 'School';
-
-    protected static string | UnitEnum | null $navigationGroup = 'Ensino';
+    protected static string|UnitEnum|null $navigationGroup = 'Ensino';
 
     public static function shouldRegisterNavigation(): bool
     {
         return Filament::getTenant()->slug == 'geral' ? false : true;
+    }
+
+    public static function canViewAny(): bool
+    {
+        return Filament::getTenant()->hasFeature(FeatureKey::SCHOOL_MODULE);
     }
 
     public static function form(Schema $schema): Schema

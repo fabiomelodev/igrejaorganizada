@@ -90,16 +90,16 @@ class PlanSelector extends Page
             return;
         }
 
-        // Usando newSubscription garantimos que o modo seja 'subscription'
-        return $team->newSubscription('default', $plan->stripe_price_id)
+        $checkout = $team->newSubscription('default', $plan->stripe_price_id)
             ->withMetadata([
                 'plan_id' => $plan->id,
             ])
             ->checkout([
                 'success_url' => static::getUrl() . '?success=true',
                 'cancel_url' => static::getUrl() . '?canceled=true',
-                // O Cashier já define o mode como 'subscription' automaticamente aqui
-            ])
-            ->redirect(); // No Laravel 12, você pode usar o redirect() direto da sessão
+            ]);
+
+        // Em vez de retornar o objeto, redirecionamos para a URL dele
+        return redirect()->away($checkout->url);
     }
 }

@@ -10,40 +10,35 @@ class StripeEventListener
     public function handle(WebhookReceived $event)
     {
         $payload = $event->payload;
-        $type = $payload['type'];
+        $object = $payload['data']['object'];
 
-        Log::info("Processando evento: {$type}");
+        if ($payload['type'] === 'invoice.payment_succeeded') {
+            $stripeCustomerId = $object['customer'];
 
-        // Lista de eventos que confirmam que o plano pode ser liberado
-        $allowedEvents = [
-            'checkout.session.completed',
-            'invoice.payment_succeeded'
-        ];
+            // 1. Tenta pegar o plan_id da raiz do metadata
+            $planId = $object['metadata']['plan_id'] ?? null;
 
-        if (in_array($type, $allowedEvents)) {
-            $data = $payload['data']['object'];
-
-            // O Stripe ID do cliente (começa com cus_...)
-            $stripeCustomerId = $data['customer'];
-
-            // Buscamos o Team/Church
-            $team = \App\Models\Team::where('stripe_id', $stripeCustomerId)->first();
-
-            if (!$team) {
-                Log::warning("Time não encontrado para o Stripe ID: {$stripeCustomerId}");
-                return;
+            // 2. Se não estiver lá, tenta pegar do metadata da Assinatura vinculada
+            if (!$planId && isset($object['subscription'])) {
+                // O Cashier pode nos ajudar a buscar a assinatura se necessário, 
+                // mas vamos tentar ver se veio no payload primeiro.
+                $planId = $object['lines']['data'][0]['metadata']['plan_id'] ?? null;
             }
 
-            // Tenta pegar o plan_id do metadata em diferentes níveis (Sessão ou Invoice)
-            $planId = $data['metadata']['plan_id']
-                ?? $data['lines']['data'][0]['metadata']['plan_id'] // Para Invoices
-                ?? null;
-
             if ($planId) {
-                $team->update(['plan_id' => $planId]);
-                Log::info("Sucesso! Time {$team->id} atualizado para o plano {$planId}");
+                $team = \App\Models\Team::where('stripe_id', $stripeCustomerId)->first();
+
+                if ($team) {
+                    // Forçamos a atualização e limpamos o cache do model
+                    $team->plan_id = (string) $planId;
+                    $team->save();
+
+                    Log::info("SUCESSO: Time {$team->id} atualizado para o plano {$planId}");
+                } else {
+                    Log::error("ERRO: Time não encontrado para o cliente {$stripeCustomerId}");
+                }
             } else {
-                Log::error("Evento recebido, mas plan_id não encontrado no metadata.");
+                Log::warning("AVISO: Webhook recebido, mas 'plan_id' não foi encontrado no JSON.");
             }
         }
     }

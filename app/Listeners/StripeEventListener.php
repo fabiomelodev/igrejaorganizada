@@ -54,21 +54,14 @@ class StripeEventListener
             Log::warning("Webhook {$type} processado, mas nenhum 'plan_id' foi encontrado no metadata.");
         }
 
-        if ($team) {
-            try {
-                // Log para ver o que temos antes de tentar salvar
-                Log::info("Tentando salvar plano {$planId} no Time ID {$team->id}");
+        if ($type === 'customer.subscription.deleted') {
+            $team = Team::where('stripe_id', $stripeCustomerId)->first();
 
-                $team->plan_id = $planId;
-                $salvou = $team->save();
+            if ($team) {
+                // ID 1 ou NULL, dependendo de como você definiu seu plano gratuito
+                $team->update(['plan_id' => 1]);
 
-                if ($salvou) {
-                    Log::info("O Laravel diz que salvou com sucesso!");
-                } else {
-                    Log::error("O Laravel retornou FALSE ao tentar salvar o model.");
-                }
-            } catch (\Exception $e) {
-                Log::error("ERRO DE BANCO DE DADOS: " . $e->getMessage());
+                Log::info("Time ID {$team->id} voltou para o plano gratuito (assinatura expirou).");
             }
         }
     }

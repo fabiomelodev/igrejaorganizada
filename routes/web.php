@@ -8,4 +8,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::post('/atualizar-pagamento-interno', [\Laravel\Cashier\Http\Controllers\WebhookController::class, 'handleWebhook']);
+
 // Route::get('/admin/register', AuthRegister::class);

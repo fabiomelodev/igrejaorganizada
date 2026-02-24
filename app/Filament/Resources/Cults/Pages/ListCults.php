@@ -3,7 +3,7 @@
 namespace App\Filament\Resources\Cults\Pages;
 
 use App\Filament\Resources\Cults\CultResource;
-use App\Filament\Resources\Pages\BaseListRecords;
+use App\Filament\Pages\BaseListRecords;
 use App\Livewire\CultsFilterWeekFridayTable;
 use App\Livewire\CultsFilterWeekMondayTable;
 use App\Livewire\CultsFilterWeekSaturdayTable;
@@ -16,7 +16,7 @@ class ListCults extends BaseListRecords
 {
     protected static string $resource = CultResource::class;
 
-    public function getHeaderWidgetsColumns(): int | array
+    public function getHeaderWidgetsColumns(): int|array
     {
         return 7;
     }

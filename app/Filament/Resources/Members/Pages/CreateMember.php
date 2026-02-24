@@ -3,22 +3,13 @@
 namespace App\Filament\Resources\Members\Pages;
 
 use App\Constants\FeatureKey;
+use App\Filament\Pages\BaseCreateRecord;
 use App\Filament\Resources\Members\MemberResource;
-use App\Traits\CheckPlanLimits;
-use Filament\Facades\Filament;
-use Filament\Notifications\Notification;
-use Filament\Resources\Pages\CreateRecord;
 
-class CreateMember extends CreateRecord
+class CreateMember extends BaseCreateRecord
 {
-    use CheckPlanLimits;
-
     protected static string $resource = MemberResource::class;
 
-    public function mount(): void
-    {
-        parent::mount();
+    protected static string|null $moduleLimit = FeatureKey::MEMBER_LIMIT;
 
-        $this->verifyLimit(FeatureKey::MEMBER_LIMIT);
-    }
 }

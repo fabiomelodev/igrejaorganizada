@@ -52,7 +52,7 @@ class Team extends Model
     public function hasReachedLimit(string $featureKey): bool
     {
         $feature = $this->plan->features()
-            ->where('key', $featureKey) // Ex: 'member_limit'
+            ->where('key', $featureKey)
             ->first();
 
         if (!$feature) {
@@ -66,8 +66,9 @@ class Team extends Model
         }
 
         $currentCount = match ($featureKey) {
-            'member_limit' => $this->members()->count(),
-            'cult_limit' => $this->cults()->count(),
+            FeatureKey::LESSON_LIMIT => $this->lessons()->count(),
+            FeatureKey::MEMBER_LIMIT => $this->members()->count(),
+            FeatureKey::CULT_LIMIT => $this->cults()->count(),
             default => 0,
         };
 

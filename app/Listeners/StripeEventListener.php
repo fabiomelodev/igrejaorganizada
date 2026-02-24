@@ -9,6 +9,9 @@ class StripeEventListener
 {
     public function handle(WebhookReceived $event)
     {
+        Log::info('--- INÍCIO DO WEBHOOK STRIPE ---');
+        Log::info('Tipo de Evento: ' . $event->payload['type']);
+
         // Verificamos se o evento é de checkout concluído
         if ($event->payload['type'] === 'checkout.session.completed') {
             $session = $event->payload['data']['object'];

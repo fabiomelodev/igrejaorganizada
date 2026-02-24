@@ -91,12 +91,15 @@ class PlanSelector extends Page
         }
 
         $checkout = $team->newSubscription('default', $plan->stripe_price_id)
-            ->withMetadata([
-                'plan_id' => $plan->id,
-            ])
+            ->withMetadata(['plan_id' => $plan->id]) // Metadata do Checkout
             ->checkout([
                 'success_url' => static::getUrl() . '?success=true',
                 'cancel_url' => static::getUrl() . '?canceled=true',
+                'subscription_data' => [
+                    'metadata' => [
+                        'plan_id' => $plan->id, // Metadata da Assinatura (vai para a Invoice)
+                    ],
+                ],
             ]);
 
         // Em vez de retornar o objeto, redirecionamos para a URL dele

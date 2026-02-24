@@ -9,27 +9,41 @@ class StripeEventListener
 {
     public function handle(WebhookReceived $event)
     {
-        Log::info('--- INÍCIO DO WEBHOOK STRIPE ---');
-        Log::info('Tipo de Evento: ' . $event->payload['type']);
+        $payload = $event->payload;
+        $type = $payload['type'];
 
-        // Verificamos se o evento é de checkout concluído
-        if ($event->payload['type'] === 'checkout.session.completed') {
-            $session = $event->payload['data']['object'];
+        Log::info("Processando evento: {$type}");
 
-            // 1. Localiza o time/igreja pelo stripe_id
-            $team = Team::where('stripe_id', $session['customer'])->first();
+        // Lista de eventos que confirmam que o plano pode ser liberado
+        $allowedEvents = [
+            'checkout.session.completed',
+            'invoice.payment_succeeded'
+        ];
 
-            // 2. Pega o plan_id que enviamos no Metadata (no passo anterior)
-            $planId = $session['metadata']['plan_id'] ?? null;
+        if (in_array($type, $allowedEvents)) {
+            $data = $payload['data']['object'];
 
-            if ($team && $planId) {
+            // O Stripe ID do cliente (começa com cus_...)
+            $stripeCustomerId = $data['customer'];
+
+            // Buscamos o Team/Church
+            $team = \App\Models\Team::where('stripe_id', $stripeCustomerId)->first();
+
+            if (!$team) {
+                Log::warning("Time não encontrado para o Stripe ID: {$stripeCustomerId}");
+                return;
+            }
+
+            // Tenta pegar o plan_id do metadata em diferentes níveis (Sessão ou Invoice)
+            $planId = $data['metadata']['plan_id']
+                ?? $data['lines']['data'][0]['metadata']['plan_id'] // Para Invoices
+                ?? null;
+
+            if ($planId) {
                 $team->update(['plan_id' => $planId]);
-                Log::info("Plano do Time {$team->id} atualizado para o ID {$planId}");
+                Log::info("Sucesso! Time {$team->id} atualizado para o plano {$planId}");
             } else {
-                Log::warning("Webhook recebido, mas time ou plan_id não encontrados.", [
-                    'stripe_id' => $session['customer'],
-                    'plan_id' => $planId
-                ]);
+                Log::error("Evento recebido, mas plan_id não encontrado no metadata.");
             }
         }
     }

@@ -39,11 +39,6 @@ class LessonResource extends Resource
         return Filament::getTenant()->slug == 'geral' ? false : true;
     }
 
-    public static function canViewAny(): bool
-    {
-        return Filament::getTenant()->hasFeature(FeatureKey::LESSON_MODULE);
-    }
-
     public static function form(Schema $schema): Schema
     {
         return LessonForm::configure($schema);

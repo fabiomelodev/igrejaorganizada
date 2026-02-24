@@ -3,7 +3,7 @@
 namespace App\Filament\Resources\Features\Pages;
 
 use App\Filament\Resources\Features\FeatureResource;
-use App\Filament\Resources\Pages\BaseListRecords;
+use App\Filament\Pages\BaseListRecords;
 use Illuminate\Database\Eloquent\Builder;
 
 class ListFeatures extends BaseListRecords

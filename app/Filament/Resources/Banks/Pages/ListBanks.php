@@ -3,7 +3,7 @@
 namespace App\Filament\Resources\Banks\Pages;
 
 use App\Filament\Resources\Banks\BankResource;
-use App\Filament\Resources\Pages\BaseListRecords;
+use App\Filament\Pages\BaseListRecords;
 
 class ListBanks extends BaseListRecords
 {

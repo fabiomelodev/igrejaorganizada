@@ -3,7 +3,7 @@
 namespace App\Filament\Resources\Categories\Pages;
 
 use App\Filament\Resources\Categories\CategoryResource;
-use App\Filament\Resources\Pages\BaseListRecords;
+use App\Filament\Pages\BaseListRecords;
 use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
 

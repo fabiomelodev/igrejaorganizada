@@ -2,7 +2,7 @@
 
 namespace App\Filament\Resources\Plans\Pages;
 
-use App\Filament\Resources\Pages\BaseListRecords;
+use App\Filament\Pages\BaseListRecords;
 use App\Filament\Resources\Plans\PlanResource;
 use Illuminate\Database\Eloquent\Builder;
 

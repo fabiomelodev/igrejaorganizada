@@ -63,6 +63,12 @@
                         Plano Ativo
                     </x-filament::button>
                 @endif
+
+                @if($plan->id != 1 && $plan->id == Filament\Facades\Filament::getTenant()->plan_id)
+                    <div class="mt-4">
+                        {{ $this->cancelarAssinaturaAction }}
+                    </div>
+                @endif
             </div>
         @endforeach
     </div>

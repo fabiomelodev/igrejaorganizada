@@ -5,13 +5,19 @@ namespace App\Filament\Pages\Settings;
 use App\Constants\FeatureKey;
 use Filament\Pages\Page;
 use App\Models\Plan;
+use App\Models\Team;
 use BackedEnum;
+use Filament\Actions\Action;
 use Filament\Facades\Filament;
 use Filament\Notifications\Notification;
+use Filament\Support\Colors\Color;
 use UnitEnum;
+use Filament\Actions\Concerns\InteractsWithActions;
 
 class PlanSelector extends Page
 {
+    use InteractsWithActions;
+
     protected string $view = 'filament.pages.settings.plan-selector';
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-credit-card';
@@ -30,75 +36,75 @@ class PlanSelector extends Page
         return Filament::getTenant()->plan_id;
     }
 
-    // public function selectPlan($planId)
-    // {
-    //     $team = Filament::getTenant();
-
-    //     $newPlan = Plan::with('features')->find($planId);
-
-    //     // 1. Validação de Limites (Downgrade)
-    //     // Se o novo plano for mais barato ou tiver limites menores, precisamos validar
-    //     foreach ($newPlan->features as $feature) {
-    //         if ($feature->type === FeatureKey::MEMBER_LIMIT) {
-    //             $currentMembers = $team->getCurrentCount(FeatureKey::MEMBER_LIMIT);
-
-    //             $newLimit = (int) $feature->pivot->value;
-
-    //             if ($currentMembers > $newLimit) {
-    //                 Notification::make()
-    //                     ->danger()
-    //                     ->title('Não é possível alterar para este plano')
-    //                     ->body("Você possui {$currentMembers} membros, mas este plano permite apenas {$newLimit}. Remova registros ou escolha outro plano.")
-    //                     ->persistent()
-    //                     ->send();
-    //                 return;
-    //             }
-    //         }
-    //     }
-
-    //     // 2. Lógica de Redirecionamento de Pagamento
-    //     // Se o plano for pago (preço > 0), no futuro mandaremos para o Checkout.
-    //     if ($newPlan->price > 0) {
-    //         // Por enquanto, apenas avisamos que o financeiro virá a seguir
-    //         Notification::make()
-    //             ->info()
-    //             ->title('Preparando pagamento...')
-    //             ->body('Em breve você será redirecionado para o checkout.')
-    //             ->send();
-
-    //         // Simulação de troca:
-    //         $team->update(['plan_id' => $planId]);
-    //     } else {
-    //         // Se for um plano gratuito (Trial)
-    //         $team->update(['plan_id' => $planId]);
-    //     }
-
-    //     Notification::make()
-    //         ->success()
-    //         ->title('Plano alterado com sucesso!')
-    //         ->send();
-
-    //     return redirect()->to(static::getUrl());
-    // }
-
     public function selectPlan($planId)
     {
         $team = Filament::getTenant();
 
         $plan = Plan::find($planId);
 
-        if (!$plan->stripe_price_id) {
+        if (!$plan || !$plan->stripe_price_id) {
             return;
         }
 
-        // Em vez de retornar diretamente, criamos a sessão e pegamos a URL
-        $checkout = $team->checkout([$plan->stripe_price_id], [
-            'success_url' => static::getUrl() . '?success=true',
-            'cancel_url' => static::getUrl() . '?canceled=true',
-            'mode' => 'subscription',
-        ]);
+        $checkout = $team->newSubscription('default', $plan->stripe_price_id)
+            ->checkout([
+                'success_url' => static::getUrl() . '?success=true',
+                'cancel_url' => static::getUrl() . '?canceled=true',
+                'metadata' => [
+                    'plan_id' => (string) $plan->id,
+                ],
+            ]);
 
-        // O segredo está aqui: redirecionamos usando o helper do Livewire/Filament
-        return redirect($checkout->url);
+        return redirect()->away($checkout->url);
+    }
+
+    public function cancelarAssinaturaAction(): Action
+    {
+        return Action::make('cancelarAssinatura')
+            ->label('Cancelar Plano Atual')
+            ->icon('heroicon-m-x-mark')
+            ->color('danger')
+            ->requiresConfirmation()
+            ->modalHeading('Confirmar Cancelamento Imediato')
+            ->modalDescription('Seu acesso premium será cortado agora. Tem certeza que deseja voltar ao plano gratuito?')
+            ->modalSubmitActionLabel('Sim, cancelar agora')
+            // Esta é a lógica que será executada
+            ->action(function () {
+                $team = Filament::getTenant();
+
+                // 1. Verificamos se a assinatura REALMENTE existe no Stripe
+                $subscription = $team->subscription('default');
+
+                if ($subscription) {
+                    try {
+                        // Se existir, cancela no Stripe
+                        $subscription->cancelNow();
+
+                        // Atualiza o banco local
+                        $team->update(['plan_id' => 1]);
+
+                        Notification::make()
+                            ->title('Assinatura cancelada com sucesso!')
+                            ->success()
+                            ->send();
+                    } catch (\Exception $e) {
+                        Notification::make()
+                            ->title('Erro no Stripe')
+                            ->body($e->getMessage())
+                            ->danger()
+                            ->send();
+                    }
+                } else {
+                    // 2. Se não existir no Stripe, apenas "limpamos" o banco local
+                    // Isso resolve o erro de "null" e coloca a igreja no plano gratuito
+                    $team->update(['plan_id' => 1]);
+
+                    Notification::make()
+                        ->title('Plano atualizado')
+                        ->body('Não encontramos assinatura ativa no Stripe, o plano foi resetado localmente.')
+                        ->warning()
+                        ->send();
+                }
+            });
     }
 }

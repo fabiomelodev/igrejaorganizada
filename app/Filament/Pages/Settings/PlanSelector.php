@@ -90,19 +90,23 @@ class PlanSelector extends Page
             return;
         }
 
+        // Garantimos que o ID seja uma string simples, ex: "2"
+        $planIdString = (string) $plan->id;
+
         $checkout = $team->newSubscription('default', $plan->stripe_price_id)
-            ->withMetadata(['plan_id' => $plan->id]) // Metadata do Checkout
+            ->withMetadata([
+                'plan_id' => $planIdString,
+            ])
             ->checkout([
                 'success_url' => static::getUrl() . '?success=true',
                 'cancel_url' => static::getUrl() . '?canceled=true',
                 'subscription_data' => [
                     'metadata' => [
-                        'plan_id' => $plan->id, // Metadata da Assinatura (vai para a Invoice)
+                        'plan_id' => $planIdString, // Também aqui como string
                     ],
                 ],
             ]);
 
-        // Em vez de retornar o objeto, redirecionamos para a URL dele
         return redirect()->away($checkout->url);
     }
 }

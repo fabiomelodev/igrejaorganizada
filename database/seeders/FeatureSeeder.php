@@ -15,15 +15,15 @@ class FeatureSeeder extends Seeder
     {
         DB::table('features')->insert([
             [
-                'name' => 'Classes',
+                'name' => 'Módulo de Aulas',
                 'key' => 'lesson_module',
-                'type' => 'limit',
+                'type' => 'boolean',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
 
             [
-                'name' => 'Culto',
+                'name' => 'Módulo de Cultos',
                 'key' => 'cult_module',
                 'type' => 'boolean',
                 'created_at' => now(),
@@ -31,7 +31,7 @@ class FeatureSeeder extends Seeder
             ],
 
             [
-                'name' => 'Escola',
+                'name' => 'Módulo de Escolas',
                 'key' => 'school_module',
                 'type' => 'boolean',
                 'created_at' => now(),
@@ -39,8 +39,40 @@ class FeatureSeeder extends Seeder
             ],
 
             [
-                'name' => 'Membros',
+                'name' => 'Módulo de Membros',
                 'key' => 'member_module',
+                'type' => 'boolean',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+
+            [
+                'name' => 'Limite de Aulas',
+                'key' => 'lesson_limit',
+                'type' => 'limit',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+
+            [
+                'name' => 'Limite de Cultos',
+                'key' => 'cult_limit',
+                'type' => 'limit',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+
+            [
+                'name' => 'Limite de Escolas',
+                'key' => 'school_limit',
+                'type' => 'limit',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+
+            [
+                'name' => 'Limite de Membros',
+                'key' => 'member_limit',
                 'type' => 'limit',
                 'created_at' => now(),
                 'updated_at' => now()

@@ -3,12 +3,15 @@
 namespace App\Models;
 
 use App\Models\ModelBase;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 
 class Member extends ModelBase
 {
+    use HasFactory;
+
     protected $casts = [
         'date' => 'datetime',
         'status' => 'boolean'

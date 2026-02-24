@@ -5,10 +5,24 @@ namespace App\Filament\Resources\Members\Pages;
 use App\Filament\Pages\ListRecordsBase;
 use App\Filament\Resources\Members\MemberResource;
 use App\Livewire\MembersActiveCountWidget;
+use Filament\Actions\CreateAction;
+use Filament\Facades\Filament;
+use Filament\Notifications\Notification;
 
 class ListMembers extends ListRecordsBase
 {
     protected static string $resource = MemberResource::class;
+
+    protected function getHeaderActions(): array
+    {
+        return [
+            CreateAction::make()
+                ->label('Membro')
+                ->icon('heroicon-o-plus')
+                // ->disabled(fn() => Filament::getTenant()->hasReachedLimit('member_limit'))
+                ->tooltip(fn() => Filament::getTenant()->hasReachedLimit('member_limit') ? 'Limite atingido' : null)
+        ];
+    }
 
     // protected function getHeaderActions(): array
     // {

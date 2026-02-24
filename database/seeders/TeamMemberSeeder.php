@@ -34,6 +34,42 @@ class TeamMemberSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+
+            [
+                'team_id' => 2,
+                'member_id' => 4,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+
+            [
+                'team_id' => 2,
+                'member_id' => 5,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+
+            [
+                'team_id' => 2,
+                'member_id' => 6,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+
+            [
+                'team_id' => 2,
+                'member_id' => 7,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+
+            [
+                'team_id' => 2,
+                'member_id' => 8,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+
         ]);
     }
 }

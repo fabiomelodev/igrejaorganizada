@@ -49,21 +49,29 @@ class Team extends Model
         return $feature ? (int) $feature->pivot->value : 0;
     }
 
-    public function hasReachedLimit(string $limitKey): bool
+    public function hasReachedLimit(string $featureKey): bool
     {
-        $feature = $this->plan->features->where('key', $limitKey)->first();
+        $feature = $this->plan->features()
+            ->where('key', $featureKey) // Ex: 'member_limit'
+            ->first();
 
         if (!$feature) {
-            return false;
+            return true;
         }
 
         $limit = (int) $feature->pivot->value;
 
+        if ($limit === -1 || $limit >= 999999) {
+            return false;
+        }
 
-        if ($limit === 0)
-            return true;
+        $currentCount = match ($featureKey) {
+            'member_limit' => $this->members()->count(),
+            'cult_limit' => $this->cults()->count(),
+            default => 0,
+        };
 
-        return $this->getCurrentCount($limitKey) >= $limit;
+        return $currentCount >= $limit;
     }
 
     public function getCurrentCount(string $featureKey): int

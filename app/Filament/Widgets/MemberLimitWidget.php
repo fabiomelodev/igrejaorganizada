@@ -13,16 +13,18 @@ class MemberLimitWidget extends StatsOverviewWidget
 
     protected function getStats(): array
     {
-        $church = Filament::getTenant();
+        $team = Filament::getTenant();
 
-        $current = $church->getCurrentCount(FeatureKey::MEMBER_LIMIT);
-        $limit = (int) $church->plan->features
+        $current = $team->getCurrentCount(FeatureKey::MEMBER_LIMIT);
+
+        $limit = (int) $team->plan->features
             ->where('key', FeatureKey::MEMBER_LIMIT)
             ->first()?->pivot->value ?? 0;
 
         $percent = $limit > 0 ? ($current / $limit) * 100 : 0;
 
         $color = 'success';
+
         if ($percent >= 80)
             $color = 'warning';
         if ($percent >= 100)
@@ -33,12 +35,10 @@ class MemberLimitWidget extends StatsOverviewWidget
             ->descriptionIcon($percent >= 100 ? 'heroicon-m-lock-closed' : 'heroicon-m-users')
             ->color($color);
 
-        // REGRA DO BOTÃO: Se o uso for maior que 80%, adicionamos o link de upgrade
         if ($percent >= 80) {
             $stat->extraAttributes([
                 'class' => 'cursor-pointer',
             ])
-                // Aqui você coloca a rota para a sua página de planos/assinatura
                 ->url('#')
                 ->description('Clique aqui para fazer Upgrade');
         }

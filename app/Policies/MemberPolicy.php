@@ -17,19 +17,7 @@ class MemberPolicy
 
     public function create(User $user): bool
     {
-        $team = Filament::getTenant();
-
-        if (!$team->hasFeature(FeatureKey::MEMBER_MODULE)) {
-            return false;
-        }
-
-        $limit = $team->plan->limit_members;
-
-        if ($team->members()->count() >= $limit) {
-            return false;
-        }
-
-        return true;
+        return Filament::getTenant()->hasFeature(FeatureKey::MEMBER_MODULE);
     }
 
     public function update(User $user, Member $member): bool

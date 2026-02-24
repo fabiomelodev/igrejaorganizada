@@ -43,12 +43,12 @@ class MemberResource extends Resource
         return Filament::getTenant()->hasFeature(FeatureKey::MEMBER_MODULE);
     }
 
-    public static function canCreate(): bool
-    {
-        $team = Filament::getTenant();
+    // public static function canCreate(): bool
+    // {
+    //     $team = Filament::getTenant();
 
-        return !$team->hasReachedLimit(FeatureKey::MEMBER_LIMIT);
-    }
+    //     return !$team->hasReachedLimit(FeatureKey::MEMBER_LIMIT);
+    // }
 
     public static function form(Schema $schema): Schema
     {

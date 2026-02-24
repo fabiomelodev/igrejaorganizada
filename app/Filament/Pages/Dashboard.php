@@ -19,7 +19,7 @@ class Dashboard extends BaseDashboard
     {
         return [
             CountsOverviewWidget::class,
-            MemberLimitWidget::class
+            MemberLimitWidget::class,
         ];
     }
 }

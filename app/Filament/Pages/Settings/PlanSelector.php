@@ -72,20 +72,37 @@ class PlanSelector extends Page
             ->action(function () {
                 $team = Filament::getTenant();
 
-                try {
-                    $team->subscription('default')->cancelNow();
-                    $team->update(['plan_id' => 1]); // ID do seu plano gratuito
-    
-                    Notification::make()
-                        ->title('Assinatura cancelada!')
-                        ->success()
-                        ->send();
+                // 1. Verificamos se a assinatura REALMENTE existe no Stripe
+                $subscription = $team->subscription('default');
 
-                } catch (\Exception $e) {
+                if ($subscription) {
+                    try {
+                        // Se existir, cancela no Stripe
+                        $subscription->cancelNow();
+
+                        // Atualiza o banco local
+                        $team->update(['plan_id' => 1]);
+
+                        Notification::make()
+                            ->title('Assinatura cancelada com sucesso!')
+                            ->success()
+                            ->send();
+                    } catch (\Exception $e) {
+                        Notification::make()
+                            ->title('Erro no Stripe')
+                            ->body($e->getMessage())
+                            ->danger()
+                            ->send();
+                    }
+                } else {
+                    // 2. Se não existir no Stripe, apenas "limpamos" o banco local
+                    // Isso resolve o erro de "null" e coloca a igreja no plano gratuito
+                    $team->update(['plan_id' => 1]);
+
                     Notification::make()
-                        ->title('Erro ao cancelar')
-                        ->body($e->getMessage())
-                        ->danger()
+                        ->title('Plano atualizado')
+                        ->body('Não encontramos assinatura ativa no Stripe, o plano foi resetado localmente.')
+                        ->warning()
                         ->send();
                 }
             });

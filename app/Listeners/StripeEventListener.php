@@ -53,5 +53,23 @@ class StripeEventListener
             // Se caiu aqui, o evento chegou mas não tinha o metadado que injetamos
             Log::warning("Webhook {$type} processado, mas nenhum 'plan_id' foi encontrado no metadata.");
         }
+
+        if ($team) {
+            try {
+                // Log para ver o que temos antes de tentar salvar
+                Log::info("Tentando salvar plano {$planId} no Time ID {$team->id}");
+
+                $team->plan_id = $planId;
+                $salvou = $team->save();
+
+                if ($salvou) {
+                    Log::info("O Laravel diz que salvou com sucesso!");
+                } else {
+                    Log::error("O Laravel retornou FALSE ao tentar salvar o model.");
+                }
+            } catch (\Exception $e) {
+                Log::error("ERRO DE BANCO DE DADOS: " . $e->getMessage());
+            }
+        }
     }
 }

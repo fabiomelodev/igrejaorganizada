@@ -90,23 +90,21 @@ class PlanSelector extends Page
             return;
         }
 
-        // Garantimos que o ID seja uma string simples, ex: "2"
-        $planIdString = (string) $plan->id;
-
-        $checkout = $team->newSubscription('default', $plan->stripe_price_id)
-            ->withMetadata([
-                'plan_id' => $planIdString,
-            ])
+        // Criamos a assinatura, mas configuramos tudo dentro do array do checkout
+        return $team->newSubscription('default', $plan->stripe_price_id)
             ->checkout([
                 'success_url' => static::getUrl() . '?success=true',
                 'cancel_url' => static::getUrl() . '?canceled=true',
+                // Passamos os metadados em um único lugar aqui
+                'metadata' => [
+                    'plan_id' => (string) $plan->id,
+                ],
                 'subscription_data' => [
                     'metadata' => [
-                        'plan_id' => $planIdString, // Também aqui como string
+                        'plan_id' => (string) $plan->id,
                     ],
                 ],
-            ]);
-
-        return redirect()->away($checkout->url);
+            ])
+            ->redirect(); // O Cashier resolverá o redirect corretamente aqui
     }
 }

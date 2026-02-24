@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2408d01bea4616535ea27f73c6b4ea3b",
+    "content-hash": "08b08e0de8e93e39bfc670dc8e94bb70",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -2144,6 +2144,87 @@
                 }
             ],
             "time": "2025-08-22T14:27:06+00:00"
+        },
+        {
+            "name": "harvirsidhu/filament-cards",
+            "version": "v1.0.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/harvirsidhu/filament-cards.git",
+                "reference": "967b153f928332dc9a4071c5ccce41c0af06b67b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/harvirsidhu/filament-cards/zipball/967b153f928332dc9a4071c5ccce41c0af06b67b",
+                "reference": "967b153f928332dc9a4071c5ccce41c0af06b67b",
+                "shasum": ""
+            },
+            "require": {
+                "filament/filament": "^4.0|^5.0",
+                "php": "^8.2",
+                "spatie/laravel-package-tools": "^1.15.0"
+            },
+            "require-dev": {
+                "larastan/larastan": "^3.0",
+                "laravel/pint": "^1.0",
+                "nunomaduro/collision": "^8.0",
+                "orchestra/testbench": "^9.0|^10.0",
+                "pestphp/pest": "^3.7|^4.0",
+                "pestphp/pest-plugin-arch": "^3.0|^4.0",
+                "pestphp/pest-plugin-laravel": "^3.0|^4.0",
+                "pestphp/pest-plugin-livewire": "^3.0|^4.0",
+                "rector/rector": "^2.0",
+                "spatie/laravel-ray": "^1.26"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Harvirsidhu\\FilamentCards\\FilamentCardsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Harvirsidhu\\FilamentCards\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "harvirsidhu",
+                    "email": "harvirsidhu@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A Filament-native cards plugin for organizing pages and resources into a card-based navigation hub.",
+            "homepage": "https://github.com/harvirsidhu/filament-cards",
+            "keywords": [
+                "Settings",
+                "cards",
+                "cluster",
+                "control-panel",
+                "filament",
+                "filament-cards",
+                "filament-plugin",
+                "filamentphp",
+                "harvirsidhu",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/harvirsidhu/filament-cards/issues",
+                "source": "https://github.com/harvirsidhu/filament-cards"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/:vendor_name",
+                    "type": "github"
+                }
+            ],
+            "time": "2026-02-19T15:32:30+00:00"
         },
         {
             "name": "kirschbaum-development/eloquent-power-joins",

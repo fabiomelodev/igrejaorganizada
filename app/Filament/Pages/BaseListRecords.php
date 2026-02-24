@@ -16,7 +16,7 @@ class BaseListRecords extends ListRecords
             CreateAction::make()
                 ->label(static::$resource::getLabel())
                 ->icon('heroicon-o-plus')
-                ->tooltip(fn() => Filament::getTenant()->hasReachedLimit(static::$moduleLimit) ? 'Limite atingido' : null),
+                ->tooltip(fn(): string|null => Filament::getTenant()->hasReachedLimit(static::$moduleLimit) ? 'Limite atingido' : null)
         ];
     }
 }

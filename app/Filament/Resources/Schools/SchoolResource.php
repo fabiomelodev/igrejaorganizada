@@ -38,11 +38,6 @@ class SchoolResource extends Resource
         return Filament::getTenant()->slug == 'geral' ? false : true;
     }
 
-    public static function canViewAny(): bool
-    {
-        return Filament::getTenant()->hasFeature(FeatureKey::SCHOOL_MODULE);
-    }
-
     public static function form(Schema $schema): Schema
     {
         return SchoolForm::configure($schema);

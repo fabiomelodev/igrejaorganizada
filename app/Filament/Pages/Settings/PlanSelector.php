@@ -84,29 +84,22 @@ class PlanSelector extends Page
     public function selectPlan($planId)
     {
         $team = Filament::getTenant();
-
         $plan = Plan::find($planId);
 
         if (!$plan || !$plan->stripe_price_id) {
             return;
         }
 
-        // O Checkout recebe: 
-        // 1. O ID do Preço (Array)
-        // 2. Opções da Sessão (Onde entram os metadados e URLs)
-        $checkout = $team->checkout([$plan->stripe_price_id], [
-            'success_url' => static::getUrl() . '?success=true',
-            'cancel_url' => static::getUrl() . '?canceled=true',
-            'metadata' => [
-                'plan_id' => $plan->id, // <--- Isso aqui é o que o seu Listener precisa!
-            ],
-            'subscription_data' => [
-                'metadata' => [
-                    'plan_id' => $plan->id, // Replicamos aqui por segurança para a Subscription
-                ],
-            ],
-        ]);
-
-        return redirect($checkout->url);
+        // Usando newSubscription garantimos que o modo seja 'subscription'
+        return $team->newSubscription('default', $plan->stripe_price_id)
+            ->withMetadata([
+                'plan_id' => $plan->id,
+            ])
+            ->checkout([
+                'success_url' => static::getUrl() . '?success=true',
+                'cancel_url' => static::getUrl() . '?canceled=true',
+                // O Cashier já define o mode como 'subscription' automaticamente aqui
+            ])
+            ->redirect(); // No Laravel 12, você pode usar o redirect() direto da sessão
     }
 }

@@ -90,21 +90,17 @@ class PlanSelector extends Page
             return;
         }
 
-        // Criamos a assinatura, mas configuramos tudo dentro do array do checkout
-        return $team->newSubscription('default', $plan->stripe_price_id)
+        // 1. Criamos o objeto de checkout sem disparar o redirecionamento automático
+        $checkout = $team->newSubscription('default', $plan->stripe_price_id)
             ->checkout([
                 'success_url' => static::getUrl() . '?success=true',
                 'cancel_url' => static::getUrl() . '?canceled=true',
-                // Passamos os metadados em um único lugar aqui
                 'metadata' => [
-                    'plan_id' => (string) $plan->id,
+                    'plan_id' => (string) $plan->id, // String pura para evitar erro de hash
                 ],
-                'subscription_data' => [
-                    'metadata' => [
-                        'plan_id' => (string) $plan->id,
-                    ],
-                ],
-            ])
-            ->redirect(); // O Cashier resolverá o redirect corretamente aqui
+            ]);
+
+        // 2. Usamos o redirecionamento manual compatível com Livewire/Filament
+        return redirect()->away($checkout->url);
     }
 }

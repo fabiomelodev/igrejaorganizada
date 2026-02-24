@@ -13,6 +13,8 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->validateCsrfTokens(except: [
             'stripe/*',
+            'http://app.singletemas.com.br/stripe/webhook',
+            'https://app.singletemas.com.br/stripe/webhook',
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

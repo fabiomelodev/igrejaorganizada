@@ -21,13 +21,17 @@ class ModelBase extends Model
         static::creating(function ($model) {
             $model->status = (int) $model->status;
 
-            $model->team_id = Filament::getTenant()->id;
+            if (Filament::getTenant()) {
+                $model->team_id = Filament::getTenant()->id;
+            }
         });
 
         static::updating(function ($model) {
             $model->status = (int) $model->status;
 
-            $model->team_id = Filament::getTenant()->id;
+            if (Filament::getTenant()) {
+                $model->team_id = Filament::getTenant()->id;
+            }
         });
     }
 

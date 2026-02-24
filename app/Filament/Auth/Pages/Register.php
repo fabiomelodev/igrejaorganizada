@@ -40,7 +40,8 @@ class Register extends BaseRegister
         $team = Team::create([
             'name' => $data['team'],
             'slug' => Str::slug($data['team']),
-            'status' => 1,
+            'is_active' => 1,
+            'plan_id' => 1,
             'created_at' => now(),
             'updated_at' => now()
         ]);

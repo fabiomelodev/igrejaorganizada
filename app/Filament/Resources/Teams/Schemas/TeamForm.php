@@ -3,7 +3,9 @@
 namespace App\Filament\Resources\Teams\Schemas;
 
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Fieldset;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
@@ -27,7 +29,16 @@ class TeamForm
                         DatePicker::make('created_at')
                             ->label('Criado em')
                             ->disabled()
-                            ->hiddenOn('create')
+                            ->hiddenOn('create'),
+                        Fieldset::make('Super Admin')
+                            ->visible(fn() => auth()->user()->isSuperAdmin())
+                            ->schema([
+                                Select::make('plan_id')
+                                    ->label('Plano')
+                                    ->relationship('plan', 'name')
+                                    ->required()
+                                    ->columnSpanFull(),
+                            ]),
                     ]),
             ]);
     }

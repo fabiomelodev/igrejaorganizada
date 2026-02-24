@@ -2,8 +2,10 @@
 
 namespace App\Livewire;
 
+use App\Constants\FeatureKey;
 use App\Models\Member;
 use Carbon\Carbon;
+use Filament\Facades\Filament;
 use Filament\Widgets\StatsOverviewWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 
@@ -22,7 +24,8 @@ class MembersActiveCountWidget extends StatsOverviewWidget
 
         return [
             Stat::make('Membros ativos', $membersActiveCount),
-            Stat::make('Novos membros neste mês', $membersMonthCurrentCount)
+            Stat::make('Novos membros neste mês', $membersMonthCurrentCount),
+            Stat::make('Limite de membros', Filament::getTenant()->getLimit(FeatureKey::MEMBER_LIMIT)),
         ];
     }
 }

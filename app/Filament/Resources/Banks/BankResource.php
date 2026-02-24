@@ -29,7 +29,12 @@ class BankResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'Bank';
 
-    protected static string | UnitEnum | null $navigationGroup = 'Financeiro';
+    protected static string|UnitEnum|null $navigationGroup = 'Financeiro';
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        return false;
+    }
 
     public static function form(Schema $schema): Schema
     {

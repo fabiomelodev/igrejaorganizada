@@ -19,6 +19,9 @@ class TeamsTable
                 TextColumn::make('name')
                     ->label('Igreja')
                     ->searchable(),
+                TextColumn::make('creator.name')
+                    ->label('Criador')
+                    ->searchable(),
                 TextColumn::make('created_at')
                     ->label('Criado em')
                     ->dateTime('d/m/Y')

@@ -59,6 +59,8 @@ class Register extends BaseRegister
             $user->assignRole('Administrador');
         }
 
+        $team->user_id = $user->id;
+
         $team->save();
 
         $userSuperAdmin = User::role('super_admin')->first();

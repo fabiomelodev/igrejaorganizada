@@ -102,6 +102,11 @@ class Team extends Model
         });
     }
 
+    public function creator(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id')->withoutGlobalScopes();
+    }
+
     public function cults(): BelongsToMany
     {
         return $this->belongsToMany(Cult::class, 'team_cults', 'team_id', 'cult_id');

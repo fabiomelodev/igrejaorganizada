@@ -6,6 +6,7 @@ use App\Constants\FeatureKey;
 use Filament\Facades\Filament;
 use Filament\Widgets\StatsOverviewWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
+use Filament\Widgets\StatsOverviewWidget\StatCustom;
 
 class MemberLimitWidget extends StatsOverviewWidget
 {
@@ -30,7 +31,7 @@ class MemberLimitWidget extends StatsOverviewWidget
         if ($percent >= 100)
             $color = 'danger';
 
-        $stat = Stat::make('Uso do Plano: Membros', "{$current} / {$limit}")
+        $stat = StatCustom::make('Uso do Plano: Membros', "{$current} / {$limit}")
             ->description($percent >= 100 ? 'Limite atingido!' : "Você utilizou " . number_format($percent, 1) . "% do seu limite.")
             ->descriptionIcon($percent >= 100 ? 'heroicon-m-lock-closed' : 'heroicon-m-users')
             ->color($color);

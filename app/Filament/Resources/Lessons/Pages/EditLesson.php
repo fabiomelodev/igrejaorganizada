@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Lessons\Pages;
 
 use App\Filament\Resources\Lessons\LessonResource;
+use App\Livewire\LessonRecordStatsWidget;
 use App\Models\Member;
 use App\Models\School;
 use Carbon\Carbon;
@@ -28,6 +29,18 @@ class EditLesson extends EditRecord
     {
         return [
             DeleteAction::make(),
+        ];
+    }
+
+    public function getHeaderWidgetsColumns(): int|array
+    {
+        return 3;
+    }
+
+    protected function getHeaderWidgets(): array
+    {
+        return [
+            LessonRecordStatsWidget::class,
         ];
     }
 
@@ -85,7 +98,7 @@ class EditLesson extends EditRecord
                             ->default('not_defined')
                             ->required()
                             ->options([
-                                'quarter'     => 'Trimestre',
+                                'quarter' => 'Trimestre',
                                 'not_defined' => 'Não definido'
                             ]),
                         Select::make('time')
@@ -93,9 +106,9 @@ class EditLesson extends EditRecord
                             ->default('not_defined')
                             ->required()
                             ->options([
-                                'night'       => 'Noite',
-                                'afternoon'   => 'Tarde',
-                                'morning'     => 'Manhã',
+                                'night' => 'Noite',
+                                'afternoon' => 'Tarde',
+                                'morning' => 'Manhã',
                                 'not_defined' => 'Não definido',
                             ]),
                         Select::make('progress')
@@ -103,9 +116,9 @@ class EditLesson extends EditRecord
                             ->default('preparing')
                             ->required()
                             ->options([
-                                'finished'  => 'Finalizado',
-                                'paused'    => 'Pausado',
-                                'course'    => 'Curso',
+                                'finished' => 'Finalizado',
+                                'paused' => 'Pausado',
+                                'course' => 'Curso',
                                 'preparing' => 'Preparando',
                             ]),
                         Toggle::make('status')

@@ -28,9 +28,9 @@ class FrequenciesRelationManager extends RelationManager
         return $table
             ->headerActions([
                 Action::make('createPosition')
-                    ->label('Frequência')
+                    ->label('Chamada')
                     ->icon('heroicon-o-plus')
-                    ->modalHeading('Nova Frequência')
+                    ->modalHeading('Nova Chamada')
                     ->modalSubmitActionLabel('Criar')
                     ->visible(fn(): bool => $this->getOwnerRecord()->progress == 'course' ? true : false)
                     ->schema([
@@ -43,11 +43,11 @@ class FrequenciesRelationManager extends RelationManager
 
                         Frequency::create($data);
                     })
-                    ->successNotificationTitle('Frequência criada com sucesso!'),
+                    ->successNotificationTitle('Chamada criada com sucesso!'),
             ])
-            ->heading('Frequências')
-            ->description("Orientação: Registre as frequências dos alunos neste espaço. Estas informações correspondem à classe {$this->getOwnerRecord()->name}.")
-            ->emptyStateHeading(fn(): string => $this->getOwnerRecord()->progress != 'course' ? 'Não é possível cadastrar frequências!' : '')
+            ->heading('Chamadas')
+            ->description("Orientação: Registre as chamadas dos alunos neste espaço. Estas informações correspondem à classe {$this->getOwnerRecord()->name}.")
+            ->emptyStateHeading(fn(): string => $this->getOwnerRecord()->progress != 'course' ? 'Não é possível cadastrar chamadas!' : '')
             ->emptyStateDescription(fn(): string => $this->getOwnerRecord()->progress != 'course' ? 'Altere a classe para cursando e continue cadastrando!' : '')
             ->searchable(false)
             ->paginated(false)
@@ -59,9 +59,9 @@ class FrequenciesRelationManager extends RelationManager
                 TextColumn::make('lesson.name')
                     ->label('Classe')
                     ->searchable(),
-                TextColumn::make('students')
+                TextColumn::make('totalStudents')
                     ->label('Alunos presentes')
-                    ->formatStateUsing(fn(Model $record): string => (string) "{$record->students()->count()} aluno(s)"),
+                    ->formatStateUsing(fn(string $state): string => "{$state} aluno(s)"),
                 TextColumn::make('created_at')
                     ->label('Criado em')
                     ->dateTime('d/m/Y')
@@ -69,7 +69,7 @@ class FrequenciesRelationManager extends RelationManager
             ->recordActions([
                 EditAction::make()
                     ->iconButton()
-                    ->modalHeading('Editar Frequência')
+                    ->modalHeading('Editar Chamada')
                     ->schema(function (Frequency $record): array {
                         return [
                             DatePicker::make('date')

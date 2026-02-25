@@ -16,6 +16,8 @@ class Team extends Model
 {
     use Billable;
 
+    protected $guarded = ['id'];
+
     protected $casts = ['is_active' => 'boolean'];
 
     protected static function boot()

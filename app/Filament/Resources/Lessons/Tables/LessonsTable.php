@@ -21,40 +21,48 @@ class LessonsTable
     public static function configure(Table $table): Table
     {
         return $table
+            ->searchable()
             ->columns([
                 TextColumn::make('name')
                     ->label('Classe')
+                    ->sortable()
                     ->searchable(),
                 TextColumn::make('school.name')
                     ->label('Escola')
-                    ->sortable(),
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('teacher.name')
+                    ->label('Professor(a)')
+                    ->sortable()
+                    ->searchable(),
                 TextColumn::make('period')
                     ->label('Período')
                     ->badge()
                     ->formatStateUsing(fn(string $state): string => match ($state) {
-                        'quarter'     => 'Trimestre',
+                        'quarter' => 'Trimestre',
                         'not_defined' => 'Não definido',
                     }),
                 TextColumn::make('time')
                     ->label('Horário')
                     ->badge()
                     ->formatStateUsing(fn(string $state): string => match ($state) {
-                        'morning'   => 'Manhã',
+                        'morning' => 'Manhã',
                         'afternoon' => 'Tarde',
-                        'night'     => 'Noite',
+                        'night' => 'Noite',
                     }),
                 TextColumn::make('progress')
+                    ->label('Progresso')
                     ->badge()
                     ->formatStateUsing(fn(string $state): string => match ($state) {
-                        'finished'  => 'Finalizado',
-                        'paused'    => 'Pausado',
-                        'course'    => 'Em curso',
+                        'finished' => 'Finalizado',
+                        'paused' => 'Pausado',
+                        'course' => 'Em curso',
                         'preparing' => 'Preparando',
                     })
                     ->color(fn(string $state): string => match ($state) {
-                        'finished'  => 'success',
-                        'paused'    => 'warning',
-                        'course'    => 'primary',
+                        'finished' => 'success',
+                        'paused' => 'warning',
+                        'course' => 'primary',
                         'preparing' => 'secondary',
                     }),
                 TextColumn::make('status')
@@ -79,40 +87,39 @@ class LessonsTable
                         default => ''
                     }),
             ])
-            ->searchable(false)
             ->filters([
-                // SelectFilter::make('school.name')
-                //     ->label('Escola')
-                //     ->relationship('school', 'name')
-                //     ->columnSpan(3),
-                // SelectFilter::make('teacher.name')
-                //     ->label('Professor(a)')
-                //     ->relationship('teacher', 'name')
-                //     ->columnSpan(3),
-                // SelectFilter::make('period')
-                //     ->label('Período')
-                //     ->columnSpan(2)
-                //     ->options([
-                //         'quarter'     => 'Trimestre',
-                //         'not_defined' => 'Não definido'
-                //     ]),
-                // SelectFilter::make('time')
-                //     ->label('Horário')
-                //     ->columnSpan(2)
-                //     ->options([
-                //         'night'       => 'Noite',
-                //         'afternoon'   => 'Tarde',
-                //         'morning'     => 'Manhã',
-                //         'not_defined' => 'Não definido',
-                //     ]),
-                // SelectFilter::make('status')
-                //     ->columnSpan(2)
-                //     ->options([
-                //         'finished'  => 'Finalizado',
-                //         'paused'    => 'Pausado',
-                //         'course'    => 'Curso',
-                //         'preparing' => 'Preparando',
-                //     ]),
+                SelectFilter::make('school.name')
+                    ->label('Escola')
+                    ->relationship('school', 'name')
+                    ->columnSpan(3),
+                SelectFilter::make('teacher.name')
+                    ->label('Professor(a)')
+                    ->relationship('teacher', 'name')
+                    ->columnSpan(3),
+                SelectFilter::make('period')
+                    ->label('Período')
+                    ->columnSpan(2)
+                    ->options([
+                        'quarter' => 'Trimestre',
+                        'not_defined' => 'Não definido'
+                    ]),
+                SelectFilter::make('time')
+                    ->label('Horário')
+                    ->columnSpan(2)
+                    ->options([
+                        'night' => 'Noite',
+                        'afternoon' => 'Tarde',
+                        'morning' => 'Manhã',
+                        'not_defined' => 'Não definido',
+                    ]),
+                SelectFilter::make('status')
+                    ->columnSpan(2)
+                    ->options([
+                        'finished' => 'Finalizado',
+                        'paused' => 'Pausado',
+                        'course' => 'Curso',
+                        'preparing' => 'Preparando',
+                    ]),
             ], layout: FiltersLayout::AboveContentCollapsible)
             ->filtersFormColumns(6)
             ->recordActions([

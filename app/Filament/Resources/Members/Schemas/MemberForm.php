@@ -53,6 +53,13 @@ class MemberForm
                         Select::make('position_id')
                             ->label('Cargo')
                             ->relationship('position', 'name', fn(Builder $query): Builder => $query->active()->where('team_id', Filament::getTenant()->id))
+                            ->searchable()
+                            ->noSearchResultsMessage('Nenhum cargo encontrado!')
+                            ->createOptionForm([
+                                TextInput::make('name')
+                                    ->label('Nome')
+                                    ->required(),
+                            ])
                             ->required(),
                         Toggle::make('status')
                             ->required(),

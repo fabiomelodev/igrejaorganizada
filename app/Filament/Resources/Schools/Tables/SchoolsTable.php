@@ -9,6 +9,7 @@ use Filament\Actions\EditAction;
 use Filament\Support\Enums\IconPosition;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 
@@ -20,11 +21,6 @@ class SchoolsTable
             ->columns([
                 TextColumn::make('name')
                     ->label('Nome')
-                    ->searchable()
-                    ->sortable(),
-                TextColumn::make('description')
-                    ->label('Descrição')
-                    ->html()
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('status')
@@ -53,7 +49,11 @@ class SchoolsTable
                     ->dateTime('d/m/y')
             ])
             ->filters([
-                //
+                SelectFilter::make('status')
+                    ->options([
+                        '1' => 'Ativo',
+                        '0' => 'Inativo',
+                    ]),
             ])
             ->recordActions([
                 EditAction::make()

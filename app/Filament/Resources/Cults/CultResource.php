@@ -31,7 +31,7 @@ class CultResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'Cult';
 
-    protected static string|UnitEnum|null $navigationGroup = 'Geral';
+    protected static string|UnitEnum|null $navigationGroup = 'Eventos';
 
     public static function shouldRegisterNavigation(): bool
     {

@@ -6,6 +6,7 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Facades\Filament;
 use Filament\Forms\Components\TextInput;
 use Filament\Support\Enums\IconPosition;
 use Filament\Support\Icons\Heroicon;
@@ -23,10 +24,12 @@ class MembersTable
             ->columns([
                 TextColumn::make('name')
                     ->label('Nome completo')
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable(),
                 TextColumn::make('email')
                     ->label('E-mail')
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable(),
                 TextColumn::make('phone')
                     ->label('Telefone')
                     ->searchable(),
@@ -74,9 +77,16 @@ class MembersTable
                                 fn(Builder $query, $email): Builder => $query->whereLike('email', "%{$email}%")
                             );
                     }),
+                SelectFilter::make('position.name')
+                    ->label('Cargo')
+                    ->relationship('position', 'name', fn(Builder $query): Builder => $query->active()->where('team_id', Filament::getTenant()->id))
+                    ->options([
+                        '1' => 'Ativo',
+                        '0' => 'Inativo',
+                    ]),
                 SelectFilter::make('status')
                     ->options([
-                        '1'   => 'Ativo',
+                        '1' => 'Ativo',
                         '0' => 'Inativo',
                     ])
             ])

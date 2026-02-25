@@ -20,6 +20,7 @@ class TeamSeeder extends Seeder
                 'is_active' => 1,
                 'plan_id' => 2,
                 'stripe_id' => 'cus_U1381JB1oB4g02',
+                'user_id' => 1,
                 'created_at' => now(),
                 'updated_at' => now()
             ],
@@ -30,6 +31,7 @@ class TeamSeeder extends Seeder
                 'is_active' => 1,
                 'plan_id' => 2,
                 'stripe_id' => 'cus_U1381JB1oB4g02',
+                'user_id' => 2,
                 'created_at' => now(),
                 'updated_at' => now()
             ],

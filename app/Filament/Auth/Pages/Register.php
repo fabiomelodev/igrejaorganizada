@@ -77,7 +77,7 @@ class Register extends BaseRegister
 
         Position::firstOrCreate(
             [
-                'name' => 'Visitante',
+                'name' => 'Membro',
                 'team_id' => $team->id
             ],
             ['status' => 1]

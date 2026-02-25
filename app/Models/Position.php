@@ -23,9 +23,9 @@ class Position extends ModelBase
         });
     }
 
-    public function isVisitor(): bool
+    public function isMember(): bool
     {
-        if ($this->name === 'Visitante')
+        if ($this->name === 'Membro')
             return true;
 
         return false;

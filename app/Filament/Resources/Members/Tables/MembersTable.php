@@ -23,7 +23,7 @@ class MembersTable
         return $table
             ->columns([
                 TextColumn::make('name')
-                    ->label('Nome completo')
+                    ->label('Nome Completo')
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('email')
@@ -59,7 +59,7 @@ class MembersTable
                         default => ''
                     }),
                 TextColumn::make('created_at')
-                    ->label('Criado em')
+                    ->label('Criado Em')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

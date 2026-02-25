@@ -39,7 +39,16 @@ class PositionTableWidget extends TableWidget
                 TextColumn::make('name')
                     ->label('Cargo')
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->tooltip(function (TextColumn $column): ?string {
+                        $state = $column->getState();
+
+                        if ($state === 'Membro') {
+                            return 'Cargo Membro é obrigatório existir!!';
+                        }
+
+                        return null;
+                    }),
                 TextColumn::make('description')
                     ->label('Descrição')
                     ->html()
@@ -74,7 +83,7 @@ class PositionTableWidget extends TableWidget
             ->recordActions([
                 EditAction::make()
                     ->iconButton()
-                    ->hidden(fn(Model $record): bool => $record->isVisitor())
+                    ->hidden(fn(Model $record): bool => $record->isMember())
                     ->schema([
                         TextInput::make('name')
                             ->label('Nome do Cargo')
@@ -86,7 +95,7 @@ class PositionTableWidget extends TableWidget
                     ]),
                 DeleteAction::make()
                     ->iconButton()
-                    ->hidden(fn(Model $record): bool => $record->isVisitor())
+                    ->hidden(fn(Model $record): bool => $record->isMember())
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

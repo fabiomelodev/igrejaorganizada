@@ -24,7 +24,7 @@ class MemberForm
                     ->columnSpan(9)
                     ->schema([
                         TextInput::make('name')
-                            ->label('Nome completo')
+                            ->label('Nome Completo')
                             ->required(),
                         TextInput::make('email')
                             ->label('E-mail')
@@ -34,14 +34,14 @@ class MemberForm
                             ->label('Telefone')
                             ->tel(),
                         DatePicker::make('birthdate')
-                            ->label('Data de nascimento')
+                            ->label('Data de Nascimento')
                             ->displayFormat('d/m/Y'),
                     ]),
                 Section::make()
                     ->columnSpan(3)
                     ->schema([
                         DatePicker::make('created_at')
-                            ->label('Criado em')
+                            ->label('Criado Em')
                             ->displayFormat('d/m/Y')
                             ->hiddenOn('create')
                             ->disabled(),
@@ -53,13 +53,12 @@ class MemberForm
                         Select::make('position_id')
                             ->label('Cargo')
                             ->relationship('position', 'name', fn(Builder $query): Builder => $query->active()->where('team_id', Filament::getTenant()->id))
-                            ->searchable()
-                            ->noSearchResultsMessage('Nenhum cargo encontrado!')
                             ->createOptionForm([
                                 TextInput::make('name')
                                     ->label('Nome')
                                     ->required(),
                             ])
+                            ->helperText('Crie novos cargos')
                             ->required(),
                         Toggle::make('status')
                             ->required(),

@@ -27,9 +27,13 @@ class ListTeams extends ListRecords
 
     protected function getHeaderWidgets(): array
     {
-        return [
-            TeamsStatsWidget::class,
-        ];
+        if (Filament::getTenant()->name == 'Geral') {
+            return [
+                TeamsStatsWidget::class,
+            ];
+        }
+
+        return [];
     }
 
     protected function getTableQuery(): Builder

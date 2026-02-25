@@ -6,6 +6,7 @@ use Filament\Facades\Filament;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Frequency extends Model
 {
@@ -30,6 +31,13 @@ class Frequency extends Model
         static::updating(function ($model) {
             $model->team_id = Filament::getTenant()->id;
         });
+    }
+
+    protected function totalStudents(): Attribute
+    {
+        return Attribute::make(
+            get: fn(): int|string => $this->students()->count(),
+        );
     }
 
     public function lesson(): BelongsTo

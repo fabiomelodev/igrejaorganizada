@@ -21,7 +21,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PositionTableWidget extends TableWidget
 {
-    protected int | string | array $columnSpan = 'full';
+    protected int|string|array $columnSpan = 'full';
 
     public static function getQuery(): Builder
     {
@@ -74,6 +74,7 @@ class PositionTableWidget extends TableWidget
             ->recordActions([
                 EditAction::make()
                     ->iconButton()
+                    ->hidden(fn(Model $record): bool => $record->isVisitor())
                     ->schema([
                         TextInput::make('name')
                             ->label('Nome do Cargo')
@@ -85,6 +86,7 @@ class PositionTableWidget extends TableWidget
                     ]),
                 DeleteAction::make()
                     ->iconButton()
+                    ->hidden(fn(Model $record): bool => $record->isVisitor())
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

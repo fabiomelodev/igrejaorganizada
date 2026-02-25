@@ -15,6 +15,14 @@ class PositionSeeder extends Seeder
     {
         DB::table('positions')->insert([
             [
+                'name' => 'Visitante',
+                'status' => 1,
+                'team_id' => 2,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+
+            [
                 'name' => 'Pastor 0101',
                 'status' => 1,
                 'team_id' => 2,

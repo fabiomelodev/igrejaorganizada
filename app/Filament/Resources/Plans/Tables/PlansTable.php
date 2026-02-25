@@ -18,7 +18,8 @@ class PlansTable
             ->columns([
                 TextColumn::make('name')
                     ->label('Nome')
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable(),
                 TextColumn::make('price')
                     ->label('Preço')
                     ->money('BRL'),

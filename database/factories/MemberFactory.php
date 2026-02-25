@@ -25,7 +25,7 @@ class MemberFactory extends Factory
             'gender' => $this->faker->randomElement(['masculine', 'feminine']),
             'status' => 1,
             'team_id' => 2,
-            'position_id' => 1,
+            'position_id' => 2,
             'created_at' => now(),
             'updated_at' => now(),
         ];

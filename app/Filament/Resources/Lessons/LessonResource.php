@@ -34,6 +34,8 @@ class LessonResource extends Resource
 
     protected static string|UnitEnum|null $navigationGroup = 'Ensino';
 
+    protected static ?int $navigationSort = 2;
+
     public static function shouldRegisterNavigation(): bool
     {
         return Filament::getTenant()->slug == 'geral' ? false : true;

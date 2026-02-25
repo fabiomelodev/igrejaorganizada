@@ -2,6 +2,7 @@
 
 namespace App\Filament\Auth\Pages;
 
+use App\Models\Position;
 use App\Models\Team;
 use App\Models\TeamUser;
 use App\Models\User;
@@ -71,6 +72,15 @@ class Register extends BaseRegister
             'team_id' => $team->id,
             'user_id' => $userSuperAdmin->id
         ]);
+
+        Position::firstOrCreate(
+            [
+                'name' => 'Visitante',
+                'team_id' => $team->id
+            ],
+            ['status' => 1]
+        );
+
 
         return $user;
     }

@@ -10,6 +10,7 @@ use Filament\Actions\EditAction;
 use Filament\Support\Enums\IconPosition;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,12 +19,16 @@ class CultsTable
     public static function configure(Table $table): Table
     {
         return $table
+            ->searchable()
             ->columns([
                 TextColumn::make('name')
-                    ->label('Culto'),
+                    ->label('Culto')
+                    ->sortable()
+                    ->searchable(),
                 TextColumn::make('week')
                     ->label('Semana')
-                    ->formatStateUsing(fn($state) => DateHelper::getWeek($state)),
+                    ->formatStateUsing(fn($state) => DateHelper::getWeek($state))
+                    ->sortable(),
                 TextColumn::make('start_time')
                     ->label('Horário')
                     ->formatStateUsing(fn(Model $record): string => "{$record->start_time} | {$record->end_time}"),
@@ -50,7 +55,9 @@ class CultsTable
                     }),
             ])
             ->filters([
-                //
+                SelectFilter::make('week')
+                    ->label('Semana')
+                    ->options(DateHelper::getWeeks()),
             ])
             ->recordActions([
                 EditAction::make()

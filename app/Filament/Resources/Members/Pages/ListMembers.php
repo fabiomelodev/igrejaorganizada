@@ -5,7 +5,7 @@ namespace App\Filament\Resources\Members\Pages;
 use App\Constants\FeatureKey;
 use App\Filament\Pages\BaseListRecords;
 use App\Filament\Resources\Members\MemberResource;
-use App\Livewire\{MembersActiveCountWidget, PositionTableWidget};
+use App\Livewire\{MembersStatsWidget, PositionTableWidget};
 
 class ListMembers extends BaseListRecords
 {
@@ -21,7 +21,7 @@ class ListMembers extends BaseListRecords
     protected function getHeaderWidgets(): array
     {
         return [
-            MembersActiveCountWidget::class,
+            MembersStatsWidget::class,
         ];
     }
 

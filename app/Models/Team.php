@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Constants\FeatureKey;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -14,8 +15,6 @@ use Laravel\Cashier\Subscription;
 class Team extends Model
 {
     use Billable;
-
-    protected $guarded = ['id'];
 
     protected $casts = ['is_active' => 'boolean'];
 
@@ -30,6 +29,16 @@ class Team extends Model
         static::updating(function ($model) {
             $model->slug = Str::slug($model->name);
         });
+    }
+
+    public function scopeIsActive(Builder $query): Builder
+    {
+        return $query->where('is_active', 1);
+    }
+
+    public function scopeIsInactive(Builder $query): Builder
+    {
+        return $query->where('is_active', 0);
     }
 
     public function hasFeature(string $featureKey): bool

@@ -19,7 +19,7 @@ class LessonInfolist
                     ->badge(),
                 TextEntry::make('time')
                     ->badge(),
-                TextEntry::make('status')
+                TextEntry::make('is_active')
                     ->badge(),
                 TextEntry::make('school_id')
                     ->numeric(),

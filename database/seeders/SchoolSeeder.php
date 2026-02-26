@@ -15,21 +15,21 @@ class SchoolSeeder extends Seeder
     {
         DB::table('schools')->insert([
             [
-                'name'        => 'Escola 0101',
+                'name' => 'Escola 0101',
                 'description' => 'Descrição 0101',
-                'status'      => 1,
-                'team_id'     => 1,
-                'created_at'  => now(),
-                'updated_at'  => now(),
+                'is_active' => 1,
+                'team_id' => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
 
             [
-                'name'        => 'Escola 0201',
+                'name' => 'Escola 0201',
                 'description' => 'Descrição 0201',
-                'status'      => 1,
-                'team_id'     => 2,
-                'created_at'  => now(),
-                'updated_at'  => now(),
+                'is_active' => 1,
+                'team_id' => 2,
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
         ]);
     }

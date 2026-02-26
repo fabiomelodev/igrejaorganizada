@@ -65,8 +65,8 @@ class LessonsTable
                         'course' => 'primary',
                         'preparing' => 'secondary',
                     }),
-                TextColumn::make('status')
-                    ->tooltip(fn($record): string => match ($record->status) {
+                TextColumn::make('is_active')
+                    ->tooltip(fn($record): string => match ($record->is_active) {
                         1 => 'Ativo',
                         0 => 'Inativo',
                         default => ''
@@ -112,12 +112,12 @@ class LessonsTable
                         'morning' => 'Manhã',
                         'not_defined' => 'Não definido',
                     ]),
-                SelectFilter::make('status')
+                SelectFilter::make('is_active')
                     ->columnSpan(2)
                     ->options([
                         'finished' => 'Finalizado',
                         'paused' => 'Pausado',
-                        'course' => 'Curso',
+                        'course' => 'Cursando',
                         'preparing' => 'Preparando',
                     ]),
             ], layout: FiltersLayout::AboveContentCollapsible)

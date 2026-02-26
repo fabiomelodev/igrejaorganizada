@@ -33,8 +33,13 @@ class SchoolForm
                             ->disabled()
                             ->displayFormat('d/m/Y H:i')
                             ->hiddenOn('create'),
-                        Toggle::make('status')
-                            ->required(),
+                        Toggle::make('is_active')
+                            ->label('Ativo')
+                            ->inline(false)
+                            ->onColor('success')
+                            ->offColor('danger')
+                            ->default(true)
+                            ->required()
                     ]),
 
             ]);

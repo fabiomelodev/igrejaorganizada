@@ -15,21 +15,21 @@ use Illuminate\Support\Facades\Auth;
 
 class CultsFilterWeekTable extends TableWidget
 {
-    protected int | string | array $columnSpan = 1;
+    protected int|string|array $columnSpan = 1;
 
-    protected string | null $dayWeek = null;
+    protected string|null $dayWeek = null;
 
     public function getQuery(): Builder
     {
         if (is_null($this->dayWeek)) {
-            return Cult::query()->active();
+            return Cult::query()->isActive();
         }
 
         if (Auth::user()->hasRole('super_admin')) {
-            return Cult::query()->active()->where('week', $this->dayWeek)->withoutGlobalScopes();
+            return Cult::query()->isActive()->where('week', $this->dayWeek)->withoutGlobalScopes();
         }
 
-        return Cult::query()->active()->where('week', $this->dayWeek);
+        return Cult::query()->isActive()->where('week', $this->dayWeek);
     }
 
     public function getHeading(): string

@@ -23,8 +23,8 @@ class SchoolsTable
                     ->label('Nome')
                     ->searchable()
                     ->sortable(),
-                TextColumn::make('status')
-                    ->tooltip(fn(Model $record): string => match ($record->status) {
+                TextColumn::make('is_active')
+                    ->tooltip(fn(Model $record): string => match ($record->is_active) {
                         1 => 'Ativo',
                         0 => 'Inativo',
                         default => ''
@@ -45,11 +45,12 @@ class SchoolsTable
                         default => null
                     }),
                 TextColumn::make('created_at')
-                    ->label('Criado em')
+                    ->label('Criado Em')
                     ->dateTime('d/m/y')
             ])
             ->filters([
-                SelectFilter::make('status')
+                SelectFilter::make('is_active')
+                    ->label('Ativo')
                     ->options([
                         '1' => 'Ativo',
                         '0' => 'Inativo',

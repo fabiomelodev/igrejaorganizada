@@ -31,7 +31,7 @@ class User extends Authenticatable implements FilamentUser, HasTenants
         'name',
         'email',
         'password',
-        'status',
+        'is_active',
         'team_id'
     ];
 
@@ -53,7 +53,7 @@ class User extends Authenticatable implements FilamentUser, HasTenants
     protected function casts(): array
     {
         return [
-            'status' => 'boolean',
+            'is_active' => 'boolean',
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
@@ -64,7 +64,7 @@ class User extends Authenticatable implements FilamentUser, HasTenants
         parent::boot();
 
         static::creating(function ($model) {
-            $model->status = (int) $model->status;
+            $model->is_active = (int) $model->is_active;
 
             if (Filament::getTenant()) {
                 $model->team_id = Filament::getTenant()->id;
@@ -72,7 +72,7 @@ class User extends Authenticatable implements FilamentUser, HasTenants
         });
 
         static::updating(function ($model) {
-            $model->status = (int) $model->status;
+            $model->is_active = (int) $model->is_active;
         });
     }
 
@@ -83,7 +83,6 @@ class User extends Authenticatable implements FilamentUser, HasTenants
 
     public function getTenants(Panel $panel): Collection
     {
-        // dd($this->teams);
         return $this->teams()->withoutGlobalScopes()->get();
     }
 
@@ -105,9 +104,5 @@ class User extends Authenticatable implements FilamentUser, HasTenants
     public function isAdmin(): bool
     {
         return true;
-
-        // return $this->roles()
-        //     ->where('name', 'admin')
-        //     ->exists();
     }
 }

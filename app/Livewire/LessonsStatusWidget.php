@@ -13,9 +13,9 @@ class LessonsStatusWidget extends StatsOverviewWidget
 {
     protected function getStats(): array
     {
-        $lessonsCourseCount = Lesson::query()->active()->where('progress', 'course')->count();
+        $lessonsCourseCount = Lesson::query()->isActive()->where('progress', 'course')->count();
 
-        $lessonsFinishedCount = Lesson::query()->active()->where('progress', 'finished')->count();
+        $lessonsFinishedCount = Lesson::query()->isActive()->where('progress', 'finished')->count();
 
         return [
             StatCustom::make('Classe(s) Cursando(s)', $lessonsCourseCount)

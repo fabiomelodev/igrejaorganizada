@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Filament\Facades\Filament;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -11,23 +12,23 @@ class ModelBase extends Model
     protected $guarded = ['id'];
 
     protected $casts = [
-        'status' => 'boolean'
+        'is_active' => 'boolean'
     ];
 
     protected static function boot()
     {
         parent::boot();
 
-        static::creating(function ($model) {
-            $model->status = (int) $model->status;
+        static::creating(function (Model $model) {
+            $model->is_active = (int) $model->is_active;
 
             if (Filament::getTenant()) {
                 $model->team_id = Filament::getTenant()->id;
             }
         });
 
-        static::updating(function ($model) {
-            $model->status = (int) $model->status;
+        static::updating(function (Model $model) {
+            $model->is_active = (int) $model->is_active;
 
             if (Filament::getTenant()) {
                 $model->team_id = Filament::getTenant()->id;
@@ -35,9 +36,9 @@ class ModelBase extends Model
         });
     }
 
-    public function scopeActive($query)
+    public function scopeIsActive(Builder $query): Builder
     {
-        return $query->where('status', 1);
+        return $query->where('is_active', 1);
     }
 
     public function team(): BelongsTo

@@ -32,8 +32,9 @@ class CultsTable
                 TextColumn::make('start_time')
                     ->label('Horário')
                     ->formatStateUsing(fn(Model $record): string => "{$record->start_time} | {$record->end_time}"),
-                TextColumn::make('status')
-                    ->tooltip(fn($record): string => match ($record->status) {
+                TextColumn::make('is_active')
+                    ->label('Ativo')
+                    ->tooltip(fn($record): string => match ($record->is_active) {
                         1 => 'Ativo',
                         0 => 'Inativo',
                         default => ''

@@ -23,7 +23,7 @@ class MemberFactory extends Factory
             'birthdate' => $this->faker->date('Y-m-d', '2005-01-01'),
             'address' => $this->faker->address(),
             'gender' => $this->faker->randomElement(['masculine', 'feminine']),
-            'status' => 1,
+            'is_active' => 1,
             'team_id' => 2,
             'position_id' => 2,
             'created_at' => now(),

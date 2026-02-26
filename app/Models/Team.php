@@ -80,7 +80,9 @@ class Team extends Model
             FeatureKey::CULT_LIMIT => $this->cults()->count(),
             FeatureKey::LESSON_LIMIT => $this->lessons()->count(),
             FeatureKey::MEMBER_LIMIT => $this->members()->count(),
+            FeatureKey::MODALITY_LIMIT => $this->modalities()->count(),
             FeatureKey::SCHOOL_LIMIT => $this->schools()->count(),
+            FeatureKey::PROJECT_LIMIT => $this->projects()->count(),
             default => 0,
         };
 
@@ -96,7 +98,9 @@ class Team extends Model
                 FeatureKey::CULT_LIMIT => $this->cults()->count(),
                 FeatureKey::LESSON_LIMIT => $this->lessons()->count(),
                 FeatureKey::MEMBER_LIMIT => $this->members()->count(),
+                FeatureKey::MODALITY_LIMIT => $this->modalities()->count(),
                 FeatureKey::SCHOOL_LIMIT => $this->classes()->count(),
+                FeatureKey::PROJECT_LIMIT => $this->projects()->count(),
                 default => 0,
             };
         });
@@ -122,9 +126,19 @@ class Team extends Model
         return $this->belongsToMany(Member::class, 'team_members', 'team_id', 'member_id');
     }
 
+    public function modalities(): BelongsToMany
+    {
+        return $this->belongsToMany(Member::class, 'team_modalities', 'team_id', 'modality_id');
+    }
+
     public function plan(): BelongsTo
     {
         return $this->belongsTo(Plan::class);
+    }
+
+    public function projects(): BelongsToMany
+    {
+        return $this->belongsToMany(Project::class, 'team_projects', 'team_id', 'project_id');
     }
 
     public function schools(): BelongsToMany

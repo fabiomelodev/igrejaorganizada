@@ -9,8 +9,6 @@ use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 
@@ -25,7 +23,7 @@ class UserForm
                     ->columnSpan(9)
                     ->schema([
                         TextInput::make('name')
-                            ->label('Nome completo')
+                            ->label('Nome Completo')
                             ->required(),
                         TextInput::make('email')
                             ->label('E-mail')
@@ -56,12 +54,17 @@ class UserForm
                             ->searchable()
                             ->required(),
                         DatePicker::make('created_at')
-                            ->label('Criado em')
+                            ->label('Criado Em')
                             ->disabled()
                             ->displayFormat('d/m/Y H:i')
                             ->hiddenOn('create'),
-                        Toggle::make('status')
-                            ->required(),
+                        Toggle::make('is_active')
+                            ->label('Ativo')
+                            ->inline(false)
+                            ->onColor('success')
+                            ->offColor('danger')
+                            ->default(true)
+                            ->required()
                     ])
             ]);
     }

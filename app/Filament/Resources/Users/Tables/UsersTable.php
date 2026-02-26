@@ -27,8 +27,8 @@ class UsersTable
                     ->searchable(),
                 TextColumn::make('department.name')
                     ->label('Departamento'),
-                TextColumn::make('status')
-                    ->tooltip(fn($record): string => match ($record->status) {
+                TextColumn::make('is_active')
+                    ->tooltip(fn($record): string => match ($record->is_active) {
                         1 => 'Ativo',
                         0 => 'Inativo',
                         default => ''

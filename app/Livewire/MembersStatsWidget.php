@@ -13,10 +13,10 @@ class MembersStatsWidget extends StatsOverviewWidget
 {
     protected function getStats(): array
     {
-        $membersActiveCount = Member::query()->active()->count();
+        $membersActiveCount = Member::query()->isActive()->count();
 
         $membersMonthCurrentCount = Member::query()
-            ->active()
+            ->isActive()
             ->whereBetween('created_at', [
                 now()->startOfMonth(),
                 now()->endOfMonth(),

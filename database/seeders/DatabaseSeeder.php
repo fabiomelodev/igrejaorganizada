@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             PositionSeeder::class,
             MemberSeeder::class,
             TeamMemberSeeder::class
+
             // PaymentMethodSeeder::class,
             // CategorySeeder::class
             // SchoolSeeder::class,

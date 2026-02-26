@@ -1,11 +1,12 @@
 <?php
 
+use App\Models\Team;
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -13,7 +14,7 @@ return new class extends Migration
     {
         Schema::create('subscriptions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id');
+            $table->foreignIdFor(Team::class);
             $table->string('type');
             $table->string('stripe_id')->unique();
             $table->string('stripe_status');
@@ -21,6 +22,7 @@ return new class extends Migration
             $table->integer('quantity')->nullable();
             $table->timestamp('trial_ends_at')->nullable();
             $table->timestamp('ends_at')->nullable();
+            $table->foreignIdFor(User::class)->nullable();
             $table->timestamps();
 
             $table->index(['user_id', 'stripe_status']);

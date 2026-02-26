@@ -20,7 +20,7 @@ class ModalityResource extends Resource
 {
     protected static ?string $model = Modality::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::PuzzlePiece;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedPuzzlePiece;
 
     protected static ?string $recordTitleAttribute = 'Modality';
 

@@ -54,8 +54,9 @@ class PositionTableWidget extends TableWidget
                     ->html()
                     ->searchable()
                     ->sortable(),
-                TextColumn::make('status')
-                    ->tooltip(fn(Model $record): string => match ($record->status) {
+                TextColumn::make('is_active')
+                    ->label('Ativo')
+                    ->tooltip(fn(Model $record): string => match ($record->is_active) {
                         1 => 'Ativo',
                         0 => 'Inativo',
                         default => ''
@@ -90,8 +91,13 @@ class PositionTableWidget extends TableWidget
                             ->required(),
                         RichEditor::make('description')
                             ->label('Descrição'),
-                        Toggle::make('status')
-                            ->required(),
+                        Toggle::make('is_active')
+                            ->label('Ativo')
+                            ->inline(false)
+                            ->onColor('success')
+                            ->offColor('danger')
+                            ->default(true)
+                            ->required()
                     ]),
                 DeleteAction::make()
                     ->iconButton()

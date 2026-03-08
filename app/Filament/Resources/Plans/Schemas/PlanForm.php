@@ -3,9 +3,6 @@
 namespace App\Filament\Resources\Plans\Schemas;
 
 use App\Models\Feature;
-use App\Models\Plan;
-use App\Models\PlanFeature;
-use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
@@ -14,7 +11,6 @@ use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
-use Illuminate\Database\Eloquent\Model;
 
 class PlanForm
 {

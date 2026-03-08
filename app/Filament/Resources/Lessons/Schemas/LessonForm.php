@@ -4,17 +4,13 @@ namespace App\Filament\Resources\Lessons\Schemas;
 
 use App\Models\Member;
 use App\Models\School;
-use Carbon\Carbon;
-use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
-use Filament\Schemas\Components\Fieldset;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 
 class LessonForm
 {
@@ -28,7 +24,7 @@ class LessonForm
                     ->columns(2)
                     ->schema([
                         TextInput::make('name')
-                            ->label('Classe')
+                            ->label('Turma')
                             ->columnSpanFull()
                             ->required(),
                         RichEditor::make('description')
@@ -36,17 +32,20 @@ class LessonForm
                             ->columnSpanFull(),
                         Select::make('school_id')
                             ->label('Escola')
-                            ->relationship('school', 'name', fn(Builder $query): Builder => $query->active())
-                            ->disabled(fn(): bool => !School::active()->exists())
+                            ->relationship('school', 'name', fn(Builder $query): Builder => $query->isActive())
                             ->columnSpan(1)
-                            ->helperText(fn(): string => !School::active()->exists() ? 'Não existe escolas para vincular!' : '')
+                            ->createOptionForm([
+                                TextInput::make('name')
+                                    ->label('Nome')
+                                    ->required(),
+                            ])
                             ->required(),
                         Select::make('teacher_id')
                             ->label('Professor(a)')
-                            ->relationship('teacher', 'name', fn(Builder $query): Builder => $query->active())
-                            ->disabled(fn(): bool => !Member::active()->exists())
+                            ->relationship('teacher', 'name', fn(Builder $query): Builder => $query->isActive())
+                            ->disabled(fn(): bool => !Member::isActive()->exists())
                             ->columnSpan(1)
-                            ->helperText(fn(): string => !Member::active()->exists() ? 'Não existe professores para matricular!' : '')
+                            ->helperText(fn(): string => !Member::isActive()->exists() ? 'Não existe professores para matricular!' : '')
                             ->required(),
                     ]),
                 Section::make()
@@ -57,7 +56,7 @@ class LessonForm
                             ->default('not_defined')
                             ->required()
                             ->options([
-                                'quarter'     => 'Trimestre',
+                                'quarter' => 'Trimestre',
                                 'not_defined' => 'Não definido'
                             ]),
                         Select::make('time')
@@ -65,9 +64,9 @@ class LessonForm
                             ->default('not_defined')
                             ->required()
                             ->options([
-                                'night'       => 'Noite',
-                                'afternoon'   => 'Tarde',
-                                'morning'     => 'Manhã',
+                                'night' => 'Noite',
+                                'afternoon' => 'Tarde',
+                                'morning' => 'Manhã',
                                 'not_defined' => 'Não definido',
                             ]),
                         Select::make('progress')
@@ -75,13 +74,18 @@ class LessonForm
                             ->default('preparing')
                             ->required()
                             ->options([
-                                'finished'  => 'Finalizado',
-                                'paused'    => 'Pausado',
-                                'course'    => 'Curso',
+                                'finished' => 'Finalizado',
+                                'paused' => 'Pausado',
+                                'course' => 'Cursando',
                                 'preparing' => 'Preparando',
                             ]),
-                        Toggle::make('status')
-                            ->required(),
+                        Toggle::make('is_active')
+                            ->label('Ativo')
+                            ->inline(false)
+                            ->onColor('success')
+                            ->offColor('danger')
+                            ->default(true)
+                            ->required()
                     ]),
             ]);
     }

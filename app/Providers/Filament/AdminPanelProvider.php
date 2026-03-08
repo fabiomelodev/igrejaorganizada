@@ -24,6 +24,7 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Filament\Navigation\NavigationGroup;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -59,6 +60,20 @@ class AdminPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
+            ])
+            ->navigationGroups([
+                NavigationGroup::make()
+                    ->label('Geral'),
+                NavigationGroup::make()
+                    ->label('Ensino'),
+                NavigationGroup::make()
+                    ->label('Projetos'),
+                NavigationGroup::make()
+                    ->label('Eventos'),
+                NavigationGroup::make()
+                    ->label('Administrativo'),
+                NavigationGroup::make()
+                    ->label('Configurações'),
             ])
             ->plugins([
                 FilamentShieldPlugin::make(),

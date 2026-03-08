@@ -25,9 +25,9 @@ class LessonResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedUser;
 
-    protected static ?string $label = 'Classe';
+    protected static ?string $label = 'Turma';
 
-    protected static ?string $pluralLabel = 'Classes';
+    protected static ?string $pluralLabel = 'Turmas';
 
     protected static ?string $recordTitleAttribute = 'Lesson';
 

@@ -16,7 +16,7 @@ class PositionSeeder extends Seeder
         DB::table('positions')->insert([
             [
                 'name' => 'Visitante',
-                'status' => 1,
+                'is_active' => 1,
                 'team_id' => 2,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -24,7 +24,7 @@ class PositionSeeder extends Seeder
 
             [
                 'name' => 'Pastor 0101',
-                'status' => 1,
+                'is_active' => 1,
                 'team_id' => 2,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -32,7 +32,7 @@ class PositionSeeder extends Seeder
 
             [
                 'name' => 'Presbitero 0101',
-                'status' => 1,
+                'is_active' => 1,
                 'team_id' => 2,
                 'created_at' => now(),
                 'updated_at' => now(),

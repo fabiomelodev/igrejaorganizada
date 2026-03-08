@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->string('slug')->unique();
             $table->decimal('price', 8, 2)->default(0);
             $table->string('description')->nullable();
+            $table->string('stripe_price_id')->nullable();
             $table->timestamps();
         });
     }

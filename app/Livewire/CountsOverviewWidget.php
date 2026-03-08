@@ -19,7 +19,7 @@ class CountsOverviewWidget extends StatsOverviewWidget
                 return $query->where('name', '!=', 'super_admin');
             })->count();
 
-            $membersActiveCount = Member::query()->active()->withoutGlobalScopes()->count();
+            $membersActiveCount = Member::query()->isActive()->withoutGlobalScopes()->count();
 
             $teamsCount = Team::where('slug', '!=', 'geral')->withoutGlobalScopes()->count();
         } else {
@@ -27,7 +27,7 @@ class CountsOverviewWidget extends StatsOverviewWidget
                 return $query->where('name', '!=', 'super_admin');
             })->count();
 
-            $membersActiveCount = Member::query()->active()->count();
+            $membersActiveCount = Member::query()->isActive()->count();
 
             $teamsCount = Team::where('slug', '!=', 'geral')->count();
         }

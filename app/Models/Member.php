@@ -14,7 +14,7 @@ class Member extends ModelBase
 
     protected $casts = [
         'date' => 'datetime',
-        'status' => 'boolean'
+        'is_active' => 'boolean'
     ];
 
     public function lessons(): BelongsToMany

@@ -52,7 +52,7 @@ class MemberForm
                             ->required(),
                         Select::make('position_id')
                             ->label('Cargo')
-                            ->relationship('position', 'name', fn(Builder $query): Builder => $query->active()->where('team_id', Filament::getTenant()->id))
+                            ->relationship('position', 'name', fn(Builder $query): Builder => $query->isActive()->where('team_id', Filament::getTenant()->id))
                             ->createOptionForm([
                                 TextInput::make('name')
                                     ->label('Nome')
@@ -60,8 +60,13 @@ class MemberForm
                             ])
                             ->helperText('Crie novos cargos')
                             ->required(),
-                        Toggle::make('status')
-                            ->required(),
+                        Toggle::make('is_active')
+                            ->label('Ativo')
+                            ->inline(false)
+                            ->onColor('success')
+                            ->offColor('danger')
+                            ->default(true)
+                            ->required()
                     ]),
                 Section::make('Endereço')
                     ->columnSpan(9)

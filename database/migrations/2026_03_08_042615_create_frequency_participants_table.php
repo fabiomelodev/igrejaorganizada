@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Frequency;
+use App\Models\Participant;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -10,8 +12,11 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::table('plans', function (Blueprint $table) {
-            $table->string('stripe_price_id')->nullable()->after('price');
+        Schema::create('frequency_participants', function (Blueprint $table) {
+            $table->id();
+            $table->foreignIdFor(Frequency::class);
+            $table->foreignIdFor(Participant::class);
+            $table->timestamps();
         });
     }
 
@@ -20,8 +25,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::table('plans', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('frequency_participants');
     }
 };

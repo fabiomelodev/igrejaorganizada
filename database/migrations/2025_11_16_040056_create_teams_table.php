@@ -17,7 +17,12 @@ return new class extends Migration {
             $table->string('name');
             $table->string('slug');
             $table->boolean('is_active')->default(true);
+            $table->string('stripe_id')->nullable()->index();
+            $table->string('pm_type')->nullable();
+            $table->string('pm_last_four', 4)->nullable();
+            $table->timestamp('trial_ends_at')->nullable();
             $table->foreignIdFor(Plan::class);
+            $table->foreignIdFor(User::class);
             $table->timestamps();
         });
     }

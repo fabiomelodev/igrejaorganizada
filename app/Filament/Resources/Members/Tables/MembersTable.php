@@ -37,8 +37,9 @@ class MembersTable
                     ->label('Cargo')
                     ->badge()
                     ->searchable(),
-                TextColumn::make('status')
-                    ->tooltip(fn($record): string => match ($record->status) {
+                TextColumn::make('is_active')
+                    ->label('Ativo')
+                    ->tooltip(fn($record): string => match ($record->is_active) {
                         1 => 'Ativo',
                         0 => 'Inativo',
                         default => ''
@@ -79,12 +80,13 @@ class MembersTable
                     }),
                 SelectFilter::make('position.name')
                     ->label('Cargo')
-                    ->relationship('position', 'name', fn(Builder $query): Builder => $query->active()->where('team_id', Filament::getTenant()->id))
+                    ->relationship('position', 'name', fn(Builder $query): Builder => $query->isActive()->where('team_id', Filament::getTenant()->id))
                     ->options([
                         '1' => 'Ativo',
                         '0' => 'Inativo',
                     ]),
-                SelectFilter::make('status')
+                SelectFilter::make('is_active')
+                    ->label('Ativo')
                     ->options([
                         '1' => 'Ativo',
                         '0' => 'Inativo',

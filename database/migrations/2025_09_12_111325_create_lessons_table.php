@@ -7,8 +7,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -21,7 +20,7 @@ return new class extends Migration
             $table->enum('period', ['quarter', 'not_defined'])->default('not_defined');
             $table->enum('time', ['night', 'afternoon', 'morning', 'not_defined'])->default('not_defined');
             $table->enum('progress', ['finished', 'paused', 'course', 'preparing'])->default('preparing');
-            $table->boolean('status')->default(1);
+            $table->boolean('is_active')->default(1);
             $table->foreignIdFor(Team::class);
             $table->foreignIdFor(School::class);
             $table->foreignIdFor(Member::class, 'teacher_id');

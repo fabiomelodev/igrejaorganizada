@@ -62,27 +62,27 @@ class EditLesson extends EditRecord
                             ->columnSpanFull(),
                         Select::make('school_id')
                             ->label('Escola')
-                            ->relationship('school', 'name', fn(Builder $query): Builder => $query->active())
-                            ->disabled(fn(): bool => !School::active()->exists())
+                            ->relationship('school', 'name', fn(Builder $query): Builder => $query->isActive())
+                            ->disabled(fn(): bool => !School::isActive()->exists())
                             ->columnSpan(1)
-                            ->helperText(fn(): string => !School::active()->exists() ? 'Não existe escolas para vincular!' : '')
+                            ->helperText(fn(): string => !School::isActive()->exists() ? 'Não existe escolas para vincular!' : '')
                             ->required(),
                         Select::make('teacher_id')
                             ->label('Professor(a)')
-                            ->relationship('teacher', 'name', fn(Builder $query): Builder => $query->active())
-                            ->disabled(fn(): bool => !Member::active()->exists())
+                            ->relationship('teacher', 'name', fn(Builder $query): Builder => $query->isActive())
+                            ->disabled(fn(): bool => !Member::isActive()->exists())
                             ->columnSpan(1)
-                            ->helperText(fn(): string => !Member::active()->exists() ? 'Não existe professores para matricular!' : '')
+                            ->helperText(fn(): string => !Member::isActive()->exists() ? 'Não existe professores para matricular!' : '')
                             ->required(),
                         Fieldset::make('Matricula')
                             ->columnSpanFull()
                             ->components([
                                 CheckboxList::make('students')
                                     ->label('Alunos')
-                                    ->relationship('students', 'name', fn(Builder $query, Model $record): Builder => $query->active()->whereNot('members.id', $record->teacher_id))
+                                    ->relationship('students', 'name', fn(Builder $query, Model $record): Builder => $query->isActive()->whereNot('members.id', $record->teacher_id))
                                     ->getOptionLabelFromRecordUsing(fn(Model $record): string => "{$record->name}, " . Carbon::parse($record->birthdate)->age . ' anos')
                                     ->hint('OBS: Os alunos matriculados estarão marcados')
-                                    ->helperText(fn(): string => !Member::active()->exists() ? 'Não existe alunos para matricular!' : '')
+                                    ->helperText(fn(): string => !Member::isActive()->exists() ? 'Não existe alunos para matricular!' : '')
                                     ->columnSpanFull()
                             ])
                     ]),
@@ -90,7 +90,7 @@ class EditLesson extends EditRecord
                     ->columnSpan(3)
                     ->schema([
                         DatePicker::make('created_at')
-                            ->label('Criado em')
+                            ->label('Criado Em')
                             ->displayFormat('d/m/Y')
                             ->disabled(),
                         Select::make('period')
@@ -118,11 +118,16 @@ class EditLesson extends EditRecord
                             ->options([
                                 'finished' => 'Finalizado',
                                 'paused' => 'Pausado',
-                                'course' => 'Curso',
+                                'course' => 'Cursando',
                                 'preparing' => 'Preparando',
                             ]),
-                        Toggle::make('status')
-                            ->required(),
+                        Toggle::make('is_active')
+                            ->label('Ativo')
+                            ->inline(false)
+                            ->onColor('success')
+                            ->offColor('danger')
+                            ->default(true)
+                            ->required()
                     ]),
             ]);
     }

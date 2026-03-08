@@ -19,7 +19,7 @@ class CultSeeder extends Seeder
                 'week' => 'wednesday',
                 'start_time' => '19:00',
                 'end_time' => '21:00',
-                'status' => 1,
+                'is_active' => 1,
                 'created_at' => now(),
                 'updated_at' => now()
             ],
@@ -29,7 +29,7 @@ class CultSeeder extends Seeder
                 'week' => 'sunday',
                 'start_time' => '19:00',
                 'end_time' => '21:00',
-                'status' => 1,
+                'is_active' => 1,
                 'created_at' => now(),
                 'updated_at' => now()
             ],

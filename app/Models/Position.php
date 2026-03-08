@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Position extends ModelBase
@@ -10,11 +12,11 @@ class Position extends ModelBase
     {
         parent::boot();
 
-        static::creating(function ($model) {
-            $model->status = 1;
+        static::creating(function (Model $model) {
+            $model->is_active = 1;
         });
 
-        static::deleted(function ($model) {
+        static::deleted(function (Model $model) {
             $model->members()->each(function ($member) {
                 $member->position_id = 1;
 
@@ -34,5 +36,10 @@ class Position extends ModelBase
     public function members(): HasMany
     {
         return $this->hasMany(Member::class);
+    }
+
+    public function teams(): BelongsToMany
+    {
+        return $this->belongsToMany(Team::class, 'team_positions', 'position_id', 'team_id');
     }
 }

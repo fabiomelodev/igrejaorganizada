@@ -14,10 +14,10 @@ class SchoolsStatsWidget extends StatsOverviewWidget
 {
     protected function getStats(): array
     {
-        $schoolsActiveCount = School::query()->active()->count();
+        $schoolsActiveCount = School::query()->isActive()->count();
 
         $schoolsMonthCurrentCount = School::query()
-            ->active()
+            ->isActive()
             ->whereBetween('created_at', [
                 now()->startOfMonth(),
                 now()->endOfMonth(),

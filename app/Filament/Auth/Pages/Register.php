@@ -51,7 +51,7 @@ class Register extends BaseRegister
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => $data['password'],
-            'status' => 1,
+            'is_active' => 1,
             'team_id' => $team->id
         ]);
 
@@ -80,7 +80,7 @@ class Register extends BaseRegister
                 'name' => 'Membro',
                 'team_id' => $team->id
             ],
-            ['status' => 1]
+            ['is_active' => 1]
         );
 
 

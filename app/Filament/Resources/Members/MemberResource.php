@@ -30,7 +30,6 @@ class MemberResource extends Resource
 
     protected static ?string $pluralLabel = 'Membros';
 
-
     protected static string|UnitEnum|null $navigationGroup = 'Geral';
 
     public static function shouldRegisterNavigation(): bool
@@ -42,13 +41,6 @@ class MemberResource extends Resource
     {
         return Filament::getTenant()->hasFeature(FeatureKey::MEMBER_MODULE);
     }
-
-    // public static function canCreate(): bool
-    // {
-    //     $team = Filament::getTenant();
-
-    //     return !$team->hasReachedLimit(FeatureKey::MEMBER_LIMIT);
-    // }
 
     public static function form(Schema $schema): Schema
     {

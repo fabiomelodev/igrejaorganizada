@@ -32,12 +32,12 @@ class CultForm
                             ->options(DateHelper::getWeeks())
                             ->required(),
                         TimePicker::make('start_time')
-                            ->label('Horário de início')
+                            ->label('Horário de Início')
                             ->displayFormat('H:i:s')
                             ->columnSpan(1)
                             ->required(),
                         TimePicker::make('end_time')
-                            ->label('Horário de término')
+                            ->label('Horário de Término')
                             ->columnSpan(1)
                             ->required(),
                     ]),
@@ -45,12 +45,17 @@ class CultForm
                     ->columnSpan('3')
                     ->schema([
                         DatePicker::make('created_at')
-                            ->label('Criado em')
+                            ->label('Criado Em')
                             ->disabled()
                             ->displayFormat('d/m/Y H:i')
                             ->hiddenOn('create'),
-                        Toggle::make('status')
-                            ->required(),
+                        Toggle::make('is_active')
+                            ->label('Ativo')
+                            ->inline(false)
+                            ->onColor('success')
+                            ->offColor('danger')
+                            ->default(true)
+                            ->required()
                     ]),
             ]);
     }

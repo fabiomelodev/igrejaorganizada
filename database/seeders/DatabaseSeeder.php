@@ -22,7 +22,15 @@ class DatabaseSeeder extends Seeder
             PlanFeatureSeeder::class,
             PositionSeeder::class,
             MemberSeeder::class,
-            TeamMemberSeeder::class
+            TeamMemberSeeder::class,
+            ProjectSeeder::class,
+            TeamProjectSeeder::class,
+            ModalitySeeder::class,
+            TeamModalitySeeder::class,
+            ParticipantSeeder::class,
+            TeamParticipantSeeder::class,
+            ModalityParticipantSeeder::class,
+
             // PaymentMethodSeeder::class,
             // CategorySeeder::class
             // SchoolSeeder::class,

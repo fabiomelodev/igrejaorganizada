@@ -22,12 +22,8 @@ class ModalitiesTable
                     ->label('Nome')
                     ->searchable()
                     ->sortable(),
-                TextColumn::make('shedule')
-                    ->label('Agenda'),
                 TextColumn::make('max_capacity')
-                    ->label('Capacidade Máxima')
-                    ->numeric()
-                    ->sortable(),
+                    ->label('Capacidade Máxima'),
                 TextColumn::make('project.name')
                     ->label('Projeto')
                     ->searchable(),

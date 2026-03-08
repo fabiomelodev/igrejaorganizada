@@ -83,6 +83,7 @@ class Team extends Model
             FeatureKey::MODALITY_LIMIT => $this->modalities()->count(),
             FeatureKey::SCHOOL_LIMIT => $this->schools()->count(),
             FeatureKey::PROJECT_LIMIT => $this->projects()->count(),
+            FeatureKey::PARTICIPANT_LIMIT => $this->participants()->count(),
             default => 0,
         };
 
@@ -101,6 +102,7 @@ class Team extends Model
                 FeatureKey::MODALITY_LIMIT => $this->modalities()->count(),
                 FeatureKey::SCHOOL_LIMIT => $this->classes()->count(),
                 FeatureKey::PROJECT_LIMIT => $this->projects()->count(),
+                FeatureKey::PARTICIPANT_LIMIT => $this->participants()->count(),
                 default => 0,
             };
         });
@@ -129,6 +131,11 @@ class Team extends Model
     public function modalities(): BelongsToMany
     {
         return $this->belongsToMany(Member::class, 'team_modalities', 'team_id', 'modality_id');
+    }
+
+    public function participants(): BelongsToMany
+    {
+        return $this->belongsToMany(Participant::class, 'team_participants', 'team_id', 'participant_id');
     }
 
     public function plan(): BelongsTo

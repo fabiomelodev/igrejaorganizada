@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Modalities;
 use App\Filament\Resources\Modalities\Pages\CreateModality;
 use App\Filament\Resources\Modalities\Pages\EditModality;
 use App\Filament\Resources\Modalities\Pages\ListModalities;
+use App\Filament\Resources\Modalities\RelationManagers\FrequenciesRelationManager;
 use App\Filament\Resources\Modalities\Schemas\ModalityForm;
 use App\Filament\Resources\Modalities\Tables\ModalitiesTable;
 use App\Models\Modality;
@@ -30,6 +31,8 @@ class ModalityResource extends Resource
 
     protected static string|UnitEnum|null $navigationGroup = 'Projetos';
 
+    protected static ?int $navigationSort = 2;
+
     public static function shouldRegisterNavigation(): bool
     {
         return Filament::getTenant()->slug == 'geral' ? false : true;
@@ -48,7 +51,7 @@ class ModalityResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            FrequenciesRelationManager::class
         ];
     }
 

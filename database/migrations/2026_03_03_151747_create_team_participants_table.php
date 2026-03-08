@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Lesson;
+use App\Models\Participant;
 use App\Models\Team;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -12,11 +12,10 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('frequencies', function (Blueprint $table) {
+        Schema::create('team_participants', function (Blueprint $table) {
             $table->id();
-            $table->date('date');
-            $table->morphs('frequencable');
             $table->foreignIdFor(Team::class);
+            $table->foreignIdFor(Participant::class);
             $table->timestamps();
         });
     }
@@ -26,6 +25,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('frequencies');
+        Schema::dropIfExists('team_participants');
     }
 };

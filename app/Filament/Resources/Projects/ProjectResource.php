@@ -30,6 +30,8 @@ class ProjectResource extends Resource
 
     protected static string|UnitEnum|null $navigationGroup = 'Projetos';
 
+    protected static ?int $navigationSort = 1;
+
     public static function shouldRegisterNavigation(): bool
     {
         return Filament::getTenant()->slug == 'geral' ? false : true;

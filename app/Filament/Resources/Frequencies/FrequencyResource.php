@@ -2,10 +2,6 @@
 
 namespace App\Filament\Resources\Frequencies;
 
-use App\Filament\Resources\Frequencies\Pages\CreateFrequency;
-use App\Filament\Resources\Frequencies\Pages\EditFrequency;
-use App\Filament\Resources\Frequencies\Pages\ListFrequencies;
-use App\Filament\Resources\Frequencies\Pages\ViewFrequency;
 use App\Filament\Resources\Frequencies\Schemas\FrequencyForm;
 use App\Filament\Resources\Frequencies\Schemas\FrequencyInfolist;
 use App\Filament\Resources\Frequencies\Tables\FrequenciesTable;
@@ -23,6 +19,10 @@ class FrequencyResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     protected static ?string $recordTitleAttribute = 'Frequency';
+
+    protected static ?string $label = 'Frequência';
+
+    protected static ?string $pluralLabel = 'Frequências';
 
     public static function form(Schema $schema): Schema
     {

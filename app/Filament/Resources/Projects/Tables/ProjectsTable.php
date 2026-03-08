@@ -24,6 +24,7 @@ class ProjectsTable
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('is_active')
+                    ->label('Ativo')
                     ->tooltip(fn(Model $record): string => match ($record->is_active) {
                         1 => 'Ativo',
                         0 => 'Inativo',

@@ -1,7 +1,7 @@
 <?php
 
-use App\Models\Lesson;
-use App\Models\Team;
+use App\Models\Modality;
+use App\Models\Participant;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -12,11 +12,10 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('frequencies', function (Blueprint $table) {
+        Schema::create('modality_participants', function (Blueprint $table) {
             $table->id();
-            $table->date('date');
-            $table->morphs('frequencable');
-            $table->foreignIdFor(Team::class);
+            $table->foreignIdFor(Modality::class);
+            $table->foreignIdFor(Participant::class);
             $table->timestamps();
         });
     }
@@ -26,6 +25,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('frequencies');
+        Schema::dropIfExists('modality_participants');
     }
 };

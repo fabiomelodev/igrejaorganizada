@@ -2,19 +2,15 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Filament\Facades\Filament;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Frequency extends Model
 {
-    protected $fillable = [
-        'date',
-        'team_id',
-        'lesson_id'
-    ];
+    protected $guarded = ['id'];
 
     protected $casts = [
         'date' => 'datetime'
@@ -40,9 +36,21 @@ class Frequency extends Model
         );
     }
 
-    public function lesson(): BelongsTo
+    protected function totalParticipants(): Attribute
     {
-        return $this->belongsTo(Lesson::class);
+        return Attribute::make(
+            get: fn(): int|string => $this->participants()->count(),
+        );
+    }
+
+    public function frequencable(): MorphTo
+    {
+        return $this->morphTo();
+    }
+
+    public function participants(): BelongsToMany
+    {
+        return $this->belongsToMany(Participant::class, 'frequency_participants', 'frequency_id', 'participant_id');
     }
 
     public function students(): BelongsToMany

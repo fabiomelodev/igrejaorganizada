@@ -15,14 +15,6 @@ class FeatureSeeder extends Seeder
     {
         DB::table('features')->insert([
             [
-                'name' => 'Módulo de Aulas',
-                'key' => 'lesson_module',
-                'type' => 'boolean',
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-
-            [
                 'name' => 'Módulo de Cultos',
                 'key' => 'cult_module',
                 'type' => 'boolean',
@@ -31,8 +23,8 @@ class FeatureSeeder extends Seeder
             ],
 
             [
-                'name' => 'Módulo de Escolas',
-                'key' => 'school_module',
+                'name' => 'Módulo de Aulas',
+                'key' => 'lesson_module',
                 'type' => 'boolean',
                 'created_at' => now(),
                 'updated_at' => now()
@@ -47,9 +39,33 @@ class FeatureSeeder extends Seeder
             ],
 
             [
-                'name' => 'Limite de Aulas',
-                'key' => 'lesson_limit',
-                'type' => 'limit',
+                'name' => 'Módulo de Modalidades',
+                'key' => 'modality_module',
+                'type' => 'boolean',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+
+            [
+                'name' => 'Módulo de Participantes',
+                'key' => 'participant_module',
+                'type' => 'boolean',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+
+            [
+                'name' => 'Módulo de Projetos',
+                'key' => 'project_module',
+                'type' => 'boolean',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+
+            [
+                'name' => 'Módulo de Escolas',
+                'key' => 'school_module',
+                'type' => 'boolean',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
@@ -63,8 +79,8 @@ class FeatureSeeder extends Seeder
             ],
 
             [
-                'name' => 'Limite de Escolas',
-                'key' => 'school_limit',
+                'name' => 'Limite de Aulas',
+                'key' => 'lesson_limit',
                 'type' => 'limit',
                 'created_at' => now(),
                 'updated_at' => now()
@@ -73,6 +89,38 @@ class FeatureSeeder extends Seeder
             [
                 'name' => 'Limite de Membros',
                 'key' => 'member_limit',
+                'type' => 'limit',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+
+            [
+                'name' => 'Limite de Modalidades',
+                'key' => 'modality_limit',
+                'type' => 'limit',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+
+            [
+                'name' => 'Limite de Participantes',
+                'key' => 'participant_limit',
+                'type' => 'limit',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+
+            [
+                'name' => 'Limite de Projetos',
+                'key' => 'project_limit',
+                'type' => 'limit',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+
+            [
+                'name' => 'Limite de Escolas',
+                'key' => 'school_limit',
                 'type' => 'limit',
                 'created_at' => now(),
                 'updated_at' => now()

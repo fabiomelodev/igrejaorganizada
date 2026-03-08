@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Modalities\Schemas;
 
 use App\Helpers\DateHelper;
+use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\RichEditor;
@@ -55,13 +56,27 @@ class ModalityForm
                         Select::make('project_id')
                             ->label('Projeto')
                             ->relationship('project', 'name')
+                            ->createOptionForm([
+                                TextInput::make('name')
+                                    ->label('Nome')
+                                    ->required(),
+                            ])
                             ->required(),
                         Toggle::make('is_active')
                             ->label('Ativo')
                             ->inline(false)
                             ->onColor('success')
                             ->offColor('danger')
+                            ->default(true)
                             ->required(),
+                    ]),
+                Section::make('Matrículas')
+                    ->columnSpan(9)
+                    ->schema([
+                        CheckboxList::make('participants')
+                            ->label('Participantes')
+                            ->relationship('participants', 'name')
+                            ->required()
                     ]),
             ]);
     }

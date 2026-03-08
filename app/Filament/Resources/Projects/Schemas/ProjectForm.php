@@ -20,7 +20,7 @@ class ProjectForm
                     ->columnSpan('9')
                     ->schema([
                         TextInput::make('name')
-                            ->label('Escola')
+                            ->label('Projeto')
                             ->required(),
                         RichEditor::make('description')
                             ->label('Descrição')

@@ -24,7 +24,7 @@ class LessonsTable
             ->searchable()
             ->columns([
                 TextColumn::make('name')
-                    ->label('Classe')
+                    ->label('Turma')
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('school.name')

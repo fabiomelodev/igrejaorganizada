@@ -20,7 +20,7 @@ class ModelBase extends Model
         parent::boot();
 
         static::creating(function (Model $model) {
-            $model->is_active = (int) $model->is_active;
+            $model->is_active = 1;
 
             if (Filament::getTenant()) {
                 $model->team_id = Filament::getTenant()->id;

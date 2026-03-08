@@ -24,7 +24,7 @@ class LessonForm
                     ->columns(2)
                     ->schema([
                         TextInput::make('name')
-                            ->label('Classe')
+                            ->label('Turma')
                             ->columnSpanFull()
                             ->required(),
                         RichEditor::make('description')
@@ -33,9 +33,12 @@ class LessonForm
                         Select::make('school_id')
                             ->label('Escola')
                             ->relationship('school', 'name', fn(Builder $query): Builder => $query->isActive())
-                            ->disabled(fn(): bool => !School::isActive()->exists())
                             ->columnSpan(1)
-                            ->helperText(fn(): string => !School::isActive()->exists() ? 'Não existe escolas para vincular!' : '')
+                            ->createOptionForm([
+                                TextInput::make('name')
+                                    ->label('Nome')
+                                    ->required(),
+                            ])
                             ->required(),
                         Select::make('teacher_id')
                             ->label('Professor(a)')

@@ -32,7 +32,7 @@ class Frequency extends Model
     protected function totalStudents(): Attribute
     {
         return Attribute::make(
-            get: fn(): int|string => $this->students()->count(),
+            get: fn(): int|string => $this->students()->whereHas('lessons')->isActive()->count(),
         );
     }
 

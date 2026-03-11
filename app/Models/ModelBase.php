@@ -41,6 +41,11 @@ class ModelBase extends Model
         return $query->where('is_active', 1);
     }
 
+    public function scopeIsInactive(Builder $query): Builder
+    {
+        return $query->where('is_active', 0);
+    }
+
     public function team(): BelongsTo
     {
         return $this->belongsTo(Team::class);

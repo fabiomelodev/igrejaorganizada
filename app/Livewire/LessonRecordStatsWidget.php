@@ -13,14 +13,22 @@ class LessonRecordStatsWidget extends StatsOverviewWidget
 
     protected function getStats(): array
     {
-        $studentsCount = $this->record->students()->count();
+        if ($this->record->is_active) {
+            $studentsCount = $this->record->students()->isActive()->whereHas('lessons')->count();
 
-        $frequencyLatestStudents = $this->record->frequencies()->latest()->first()->students()->count();
+            $frequencyLatestStudents = 'N/A';
 
-        return [
-            StatCustom::make('Aluno(s) Matriculado(s)', $studentsCount),
-            StatCustom::make('Média de Chamadas', Lesson::presenceAverage($this->record) . '%'),
-            StatCustom::make('Última Chamada', $frequencyLatestStudents),
-        ];
+            if ($this->record->frequencies()->exists()) {
+                $frequencyLatestStudents = $this->record->frequencies()->latest()->first()->students()->isActive()->whereHas('lessons')->count();
+            }
+
+            return [
+                StatCustom::make('Aluno(s) Matriculado(s)', $studentsCount),
+                StatCustom::make('Média de Chamadas', Lesson::presenceAverage($this->record) . '%'),
+                StatCustom::make('Última Chamada', $frequencyLatestStudents),
+            ];
+        }
+
+        return [];
     }
 }

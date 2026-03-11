@@ -46,7 +46,7 @@ class ProjectsTable
                         default => null
                     }),
                 TextColumn::make('created_at')
-                    ->label('Criado em')
+                    ->label('Criado Em')
                     ->dateTime('d/m/y')
             ])
             ->filters([

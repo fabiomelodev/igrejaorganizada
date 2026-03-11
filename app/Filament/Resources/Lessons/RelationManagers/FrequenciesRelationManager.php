@@ -3,19 +3,16 @@
 namespace App\Filament\Resources\Lessons\RelationManagers;
 
 use App\Filament\Resources\Frequencies\FrequencyResource;
-use App\Models\Frequency;
-use App\Models\Member;
-use Carbon\Carbon;
-use Filament\Actions\Action;
+use Filament\Actions\CreateAction;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\DatePicker;
 use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 
 class FrequenciesRelationManager extends RelationManager
 {
@@ -23,31 +20,54 @@ class FrequenciesRelationManager extends RelationManager
 
     protected static ?string $relatedResource = FrequencyResource::class;
 
+    public function form(Schema $schema): Schema
+    {
+        return $schema
+            ->columns(1)
+            ->components([
+                DatePicker::make('date')
+                    ->label('Data')
+                    ->required(),
+                CheckboxList::make('students')
+                    ->label('Marcar Presença')
+                    ->relationship('students', 'name', fn(Builder $query): Builder => $query->whereHas('lessons')->isActive())
+                    ->bulkToggleable()
+                    ->required(),
+            ]);
+    }
+
     public function table(Table $table): Table
     {
         return $table
             ->headerActions([
-                Action::make('createPosition')
-                    ->label('Chamada')
+                CreateAction::make()
+                    ->label(static::$relatedResource::getLabel())
                     ->icon('heroicon-o-plus')
-                    ->modalHeading('Nova Chamada')
-                    ->modalSubmitActionLabel('Criar')
-                    ->visible(fn(): bool => $this->getOwnerRecord()->progress == 'course' ? true : false)
-                    ->schema([
-                        DatePicker::make('date')
-                            ->label('Data')
-                            ->required(),
-                    ])
-                    ->action(function (array $data) {
-                        $data['lesson_id'] = $this->getOwnerRecord()->id;
+                    ->visible(function (): bool {
+                        if ($this->getOwnerRecord()->is_active === 1 && $this->getOwnerRecord()->progress == 'course' && $this->getOwnerRecord()->students()->get()->exists()) {
+                            return true;
+                        }
 
-                        Frequency::create($data);
-                    })
-                    ->successNotificationTitle('Chamada criada com sucesso!'),
+                        return false;
+                    }),
             ])
             ->heading('Chamadas')
             ->description("Orientação: Registre as chamadas dos alunos neste espaço. Estas informações correspondem à classe {$this->getOwnerRecord()->name}.")
-            ->emptyStateHeading(fn(): string => $this->getOwnerRecord()->progress != 'course' ? 'Não é possível cadastrar chamadas!' : '')
+            ->emptyStateHeading(function (): string {
+                if ($this->getOwnerRecord()->is_active === 0) {
+                    return 'Ative a turma para cadastrar chamadas!';
+                }
+
+                if ($this->getOwnerRecord()->progress != 'course') {
+                    return 'Não é possível cadastrar chamadas!';
+                }
+
+                if ($this->getOwnerRecord()->students()->get()->isEmpty()) {
+                    return 'Matricule os alunos para cadastrar chamadas!';
+                }
+
+                return '';
+            })
             ->emptyStateDescription(fn(): string => $this->getOwnerRecord()->progress != 'course' ? 'Altere a classe para cursando e continue cadastrando!' : '')
             ->searchable(false)
             ->paginated(false)
@@ -56,34 +76,16 @@ class FrequenciesRelationManager extends RelationManager
                     ->label('Data')
                     ->date('d/m/Y')
                     ->sortable(),
-                TextColumn::make('lesson.name')
-                    ->label('Classe')
-                    ->searchable(),
                 TextColumn::make('totalStudents')
-                    ->label('Alunos presentes')
+                    ->label('Alunos Presentes')
                     ->formatStateUsing(fn(string $state): string => "{$state} aluno(s)"),
                 TextColumn::make('created_at')
-                    ->label('Criado em')
-                    ->dateTime('d/m/Y')
+                    ->label('Criado Em')
+                    ->date('d/m/Y')
             ])
             ->recordActions([
                 EditAction::make()
-                    ->iconButton()
-                    ->modalHeading('Editar Chamada')
-                    ->schema(function (Frequency $record): array {
-                        return [
-                            DatePicker::make('date')
-                                ->label('Data'),
-                            CheckboxList::make('students')
-                                ->label('Alunos')
-                                ->relationship(
-                                    'students',
-                                    'name',
-                                    fn(Builder $query): Builder => $query->whereNot('members.id', $this->getOwnerRecord()->teacher_id)
-                                )
-                                ->getOptionLabelFromRecordUsing(fn(Member $record): string => "{$record->name}, " . Carbon::parse($record->birthdate)->age . ' anos'),
-                        ];
-                    }),
+                    ->iconButton(),
                 DeleteAction::make()
                     ->iconButton(),
             ]);

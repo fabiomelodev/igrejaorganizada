@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Modalities\Schemas;
 
 use App\Helpers\DateHelper;
+use App\Models\Participant;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Repeater;
@@ -12,6 +13,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Illuminate\Database\Eloquent\Builder;
 
 class ModalityForm
 {
@@ -55,7 +57,7 @@ class ModalityForm
                             ->numeric(),
                         Select::make('project_id')
                             ->label('Projeto')
-                            ->relationship('project', 'name')
+                            ->relationship('project', 'name', fn(Builder $query): Builder => $query->isActive())
                             ->createOptionForm([
                                 TextInput::make('name')
                                     ->label('Nome')
@@ -75,7 +77,10 @@ class ModalityForm
                     ->schema([
                         CheckboxList::make('participants')
                             ->label('Participantes')
-                            ->relationship('participants', 'name')
+                            ->relationship('participants', 'name', fn(Builder $query): Builder => $query->isActive())
+                            ->helperText(function () {
+                                return Participant::query()->isActive()->get()->isEmpty() ? 'Cadastre os participantes para se matricularem' : '';
+                            })
                             ->required()
                     ]),
             ]);

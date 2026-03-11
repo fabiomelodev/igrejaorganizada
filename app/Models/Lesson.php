@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Lesson extends ModelBase
 {
@@ -26,31 +27,33 @@ class Lesson extends ModelBase
 
     public static function presenceAverage(Model $record): float|int
     {
-        $frequenciesByStudentsCount = [];
+        $frequencies = $record->frequencies();
 
-        $frequencies = Frequency::with('lesson')->whereHas('lesson', function (Builder $query) use ($record): Builder {
-            return $query->where('lessons.id', $record->id);
-        })->get();
+        if ($frequencies->exists()) {
+            $frequenciesByStudentsCount = [];
 
-        foreach ($frequencies as $frequency) {
-            array_push($frequenciesByStudentsCount, $frequency->students()->count());
+            foreach ($frequencies->get() as $frequency) {
+                array_push($frequenciesByStudentsCount, $frequency->students()->isActive()->whereHas('lessons')->count());
+            }
+
+            $frequenciesByStudentsCount = array_sum($frequenciesByStudentsCount);
+
+
+            $frequenciesCount = $record->frequencies()->count();
+
+            $studentsCount = $record->students()->count();
+
+            $expectedPresenceTotal = $frequenciesCount * $studentsCount;
+
+            return number_format(($frequenciesByStudentsCount / $expectedPresenceTotal) * 100, 2, '.', '');
         }
 
-        $frequenciesByStudentsCount = array_sum($frequenciesByStudentsCount);
-
-        $frequenciesCount = $record->frequencies()->count();
-
-        $studentsCount = $record->students()->count();
-
-        $expectedPresenceTotal = $frequenciesCount * $studentsCount;
-
-        return number_format(($frequenciesByStudentsCount / $expectedPresenceTotal) * 100, 2, '.', '');
-
+        return 0;
     }
 
-    public function frequencies(): HasMany
+    public function frequencies(): MorphMany
     {
-        return $this->hasMany(Frequency::class);
+        return $this->morphMany(Frequency::class, 'frequencable');
     }
 
     public function school(): BelongsTo

@@ -9,6 +9,7 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Utilities\Set;
@@ -87,13 +88,20 @@ class ParticipantForm
                                 ->tel()
                                 ->disabled(fn(Get $get): bool => (int) $get('is_internal') ?? false)
                                 ->columnSpan(1),
+                            Toggle::make('is_active')
+                                ->label('Ativo')
+                                ->inline(false)
+                                ->onColor('success')
+                                ->offColor('danger')
+                                ->default(true)
+                                ->hiddenOn('create')
+                                ->required()
                         ]),
                     Step::make('Responsável')
                         ->schema([
                             Select::make('responsible_id')
                                 ->label('Responsável')
                                 ->relationship('responsible', 'name', fn(Builder $query): Builder => $query->where('team_id', Filament::getTenant()->id))
-                                ->required()
                                 ->createOptionForm([
                                     Grid::make(2)
                                         ->schema([

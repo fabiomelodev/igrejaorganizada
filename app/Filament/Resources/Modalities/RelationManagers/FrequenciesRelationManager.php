@@ -48,7 +48,7 @@ class FrequenciesRelationManager extends RelationManager
                     ->icon('heroicon-o-plus'),
             ])
             ->heading('Chamadas')
-            ->description("Orientação: Registre as chamadas dos alunos neste espaço. Estas informações correspondem à classe {$this->getOwnerRecord()->name}.")
+            ->description("Orientação: Registre as chamadas dos participantes neste espaço. Estas informações correspondem à modalidade {$this->getOwnerRecord()->name}.")
             ->emptyStateHeading(fn(): string => $this->getOwnerRecord()->is_active != true ? 'Não é possível cadastrar chamadas!' : '')
             ->emptyStateDescription(fn(): string => $this->getOwnerRecord()->is_active != true ? 'Ative a modalidade e continue cadastrando!' : '')
             ->searchable(false)
@@ -59,11 +59,11 @@ class FrequenciesRelationManager extends RelationManager
                     ->date('d/m/Y')
                     ->sortable(),
                 TextColumn::make('totalParticipants')
-                    ->label('Participantes presentes')
+                    ->label('Participantes Presentes')
                     ->formatStateUsing(fn(string $state): string => "{$state} participante(s)"),
                 TextColumn::make('created_at')
-                    ->label('Criado em')
-                    ->dateTime('d/m/Y')
+                    ->label('Criado Em')
+                    ->date('d/m/Y')
             ])
             ->recordActions([
                 EditAction::make()

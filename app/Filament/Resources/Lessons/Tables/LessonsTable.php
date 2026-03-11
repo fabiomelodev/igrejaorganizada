@@ -66,6 +66,7 @@ class LessonsTable
                         'preparing' => 'secondary',
                     }),
                 TextColumn::make('is_active')
+                    ->label('Ativo')
                     ->tooltip(fn($record): string => match ($record->is_active) {
                         1 => 'Ativo',
                         0 => 'Inativo',
